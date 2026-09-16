@@ -41,8 +41,14 @@ struct RepoStats: Codable {
     
     let downloadsToday: Int?
     let downloadsThisWeek: Int?
+    let clonesToday: Int?
+    let clonesThisWeek: Int?
+    let viewsToday: Int?
+    let viewsThisWeek: Int?
     
-    init(owner: String, repo: String, totalDownloads: Int, latestReleaseVersion: String, latestReleaseDownloads: Int, lastRefreshed: Date, isCached: Bool, totalClones: Int = 0, uniqueCloners: Int = 0, totalViews: Int = 0, uniqueVisitors: Int = 0, downloadsToday: Int? = nil, downloadsThisWeek: Int? = nil) {
+    let isTrafficAuthorized: Bool
+    
+    init(owner: String, repo: String, totalDownloads: Int, latestReleaseVersion: String, latestReleaseDownloads: Int, lastRefreshed: Date, isCached: Bool, totalClones: Int = 0, uniqueCloners: Int = 0, totalViews: Int = 0, uniqueVisitors: Int = 0, downloadsToday: Int? = nil, downloadsThisWeek: Int? = nil, clonesToday: Int? = nil, clonesThisWeek: Int? = nil, viewsToday: Int? = nil, viewsThisWeek: Int? = nil, isTrafficAuthorized: Bool = true) {
         self.owner = owner
         self.repo = repo
         self.totalDownloads = totalDownloads
@@ -56,10 +62,19 @@ struct RepoStats: Codable {
         self.uniqueVisitors = uniqueVisitors
         self.downloadsToday = downloadsToday
         self.downloadsThisWeek = downloadsThisWeek
+        self.clonesToday = clonesToday
+        self.clonesThisWeek = clonesThisWeek
+        self.viewsToday = viewsToday
+        self.viewsThisWeek = viewsThisWeek
+        self.isTrafficAuthorized = isTrafficAuthorized
     }
     
     var formattedTotalDownloads: String {
         Self.format(number: totalDownloads)
+    }
+    
+    var formattedReleaseVersion: String {
+        latestReleaseVersion.lowercased().hasPrefix("v") ? latestReleaseVersion : "v\(latestReleaseVersion)"
     }
     
     var formattedLatestDownloads: String {
@@ -75,13 +90,23 @@ struct RepoStats: Codable {
     }
     
     var formattedDeltaToday: String? {
-        guard let today = downloadsToday, today > 0 else { return nil }
+        guard let today = downloadsToday else { return nil }
         return "+\(NumberFormatter.localizedString(from: NSNumber(value: today), number: .decimal))"
     }
     
     var formattedDeltaWeek: String? {
-        guard let week = downloadsThisWeek, week > 0 else { return nil }
+        guard let week = downloadsThisWeek else { return nil }
         return "+\(NumberFormatter.localizedString(from: NSNumber(value: week), number: .decimal))"
+    }
+
+    var formattedClonesToday: String? {
+        guard let today = clonesToday else { return nil }
+        return "+\(NumberFormatter.localizedString(from: NSNumber(value: today), number: .decimal))"
+    }
+
+    var formattedViewsToday: String? {
+        guard let today = viewsToday else { return nil }
+        return "+\(NumberFormatter.localizedString(from: NSNumber(value: today), number: .decimal))"
     }
     
     private static let formatter: NumberFormatter = {

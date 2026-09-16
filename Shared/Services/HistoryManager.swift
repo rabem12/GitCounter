@@ -1,5 +1,14 @@
 import Foundation
 
+struct StatsDeltas {
+    let downloadsToday: Int?
+    let downloadsThisWeek: Int?
+    let clonesToday: Int?
+    let clonesThisWeek: Int?
+    let viewsToday: Int?
+    let viewsThisWeek: Int?
+}
+
 class HistoryManager {
     static let shared = HistoryManager()
     
@@ -124,10 +133,10 @@ class HistoryManager {
         updateManifest(owner: owner, repo: repo)
     }
     
-    func calculateDeltas(owner: String, repo: String, currentTotal: Int) -> (today: Int?, thisWeek: Int?) {
+    func calculateDeltas(owner: String, repo: String, currentDownloads: Int, currentClones: Int, currentViews: Int) -> StatsDeltas {
         let snapshots = getSnapshots(owner: owner, repo: repo)
         if snapshots.isEmpty {
-            return (nil, nil)
+            return StatsDeltas(downloadsToday: nil, downloadsThisWeek: nil, clonesToday: nil, clonesThisWeek: nil, viewsToday: nil, viewsThisWeek: nil)
         }
         
         let now = Date()
@@ -162,10 +171,23 @@ class HistoryManager {
             weekSnapshot = oldest
         }
         
-        let todayDelta = todaySnapshot.map { max(0, currentTotal - $0.totalDownloads) }
-        let weekDelta = weekSnapshot.map { max(0, currentTotal - $0.totalDownloads) }
+        let todayDelta = todaySnapshot.map { max(0, currentDownloads - $0.totalDownloads) }
+        let weekDelta = weekSnapshot.map { max(0, currentDownloads - $0.totalDownloads) }
         
-        return (todayDelta, weekDelta)
+        let clonesTodayDelta = todaySnapshot.map { max(0, currentClones - ($0.totalClones ?? 0)) }
+        let clonesWeekDelta = weekSnapshot.map { max(0, currentClones - ($0.totalClones ?? 0)) }
+        
+        let viewsTodayDelta = todaySnapshot.map { max(0, currentViews - ($0.totalViews ?? 0)) }
+        let viewsWeekDelta = weekSnapshot.map { max(0, currentViews - ($0.totalViews ?? 0)) }
+        
+        return StatsDeltas(
+            downloadsToday: todayDelta,
+            downloadsThisWeek: weekDelta,
+            clonesToday: clonesTodayDelta,
+            clonesThisWeek: clonesWeekDelta,
+            viewsToday: viewsTodayDelta,
+            viewsThisWeek: viewsWeekDelta
+        )
     }
     
     func getSnapshots(owner: String, repo: String) -> [DownloadSnapshot] {

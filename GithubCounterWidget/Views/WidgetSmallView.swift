@@ -10,7 +10,7 @@ struct WidgetSmallView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 WidgetIconView(size: 16)
-                Text(stats.repo)
+                Text("\(stats.owner)/\(stats.repo)")
                     .font(.system(.caption, design: .rounded, weight: .semibold))
                     .foregroundColor(.secondary)
                     .lineLimit(1)
@@ -32,52 +32,80 @@ struct WidgetSmallView: View {
             
             Spacer(minLength: 0)
             
-            switch metric {
-            case .downloads:
-                Text(stats.formattedTotalDownloads)
-                    .font(.system(.title, design: .rounded, weight: .bold))
-                    .foregroundColor(.primary)
-                    .minimumScaleFactor(0.5)
-                    .lineLimit(1)
-                
-                Text("Total Downloads")
-                    .font(.system(size: 10, weight: .medium, design: .rounded))
-                    .foregroundColor(.secondary)
-                
-                if let delta = stats.formattedDeltaToday {
-                    Text("\(delta) today")
-                        .font(.system(size: 9, weight: .bold, design: .rounded))
-                        .foregroundColor(.green)
+            VStack(alignment: .center, spacing: 6) {
+                switch metric {
+                case .downloads:
+                    Text(stats.formattedTotalDownloads)
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                        .foregroundColor(.primary)
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                    
+                    Text("Total Downloads")
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
+                        .foregroundColor(.secondary)
+                    
+                    if let delta = stats.formattedDeltaToday {
+                        Text("\(delta) today")
+                            .font(.system(size: 9, weight: .bold, design: .rounded))
+                            .foregroundColor(.green)
+                    }
+                case .clones:
+                    Text("\(stats.totalClones)")
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                        .foregroundColor(.primary)
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                    
+                    Text("Total Clones")
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
+                        .foregroundColor(.secondary)
+                    
+                    if stats.isTrafficAuthorized {
+                        Text("\(stats.uniqueCloners) unique")
+                            .font(.system(size: 9, weight: .bold, design: .rounded))
+                            .foregroundColor(.blue)
+                        
+                        if let delta = stats.formattedClonesToday {
+                            Text("\(delta) today")
+                                .font(.system(size: 9, weight: .bold, design: .rounded))
+                                .foregroundColor(.green)
+                        }
+                    } else {
+                        Text("Data Not Public")
+                            .font(.system(size: 9, weight: .bold, design: .rounded))
+                            .foregroundColor(.secondary)
+                    }
+                case .views:
+                    Text("\(stats.totalViews)")
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                        .foregroundColor(.primary)
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                    
+                    Text("Total Views")
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
+                        .foregroundColor(.secondary)
+                    
+                    if stats.isTrafficAuthorized {
+                        Text("\(stats.uniqueVisitors) unique")
+                            .font(.system(size: 9, weight: .bold, design: .rounded))
+                            .foregroundColor(.purple)
+                            
+                        if let delta = stats.formattedViewsToday {
+                            Text("\(delta) today")
+                                .font(.system(size: 9, weight: .bold, design: .rounded))
+                                .foregroundColor(.green)
+                        }
+                    } else {
+                        Text("Data Not Public")
+                            .font(.system(size: 9, weight: .bold, design: .rounded))
+                            .foregroundColor(.secondary)
+                    }
                 }
-            case .clones:
-                Text("\(stats.totalClones)")
-                    .font(.system(.title, design: .rounded, weight: .bold))
-                    .foregroundColor(.primary)
-                    .minimumScaleFactor(0.5)
-                    .lineLimit(1)
-                
-                Text("Total Clones")
-                    .font(.system(size: 10, weight: .medium, design: .rounded))
-                    .foregroundColor(.secondary)
-                
-                Text("\(stats.uniqueCloners) unique")
-                    .font(.system(size: 9, weight: .bold, design: .rounded))
-                    .foregroundColor(.blue)
-            case .views:
-                Text("\(stats.totalViews)")
-                    .font(.system(.title, design: .rounded, weight: .bold))
-                    .foregroundColor(.primary)
-                    .minimumScaleFactor(0.5)
-                    .lineLimit(1)
-                
-                Text("Total Views")
-                    .font(.system(size: 10, weight: .medium, design: .rounded))
-                    .foregroundColor(.secondary)
-                
-                Text("\(stats.uniqueVisitors) unique")
-                    .font(.system(size: 9, weight: .bold, design: .rounded))
-                    .foregroundColor(.purple)
             }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .multilineTextAlignment(.center)
             
             Spacer(minLength: 0)
             
@@ -85,7 +113,7 @@ struct WidgetSmallView: View {
                 Image(systemName: "tag.fill")
                     .font(.system(size: 10))
                     .foregroundColor(.blue)
-                Text(stats.latestReleaseVersion)
+                Text(stats.formattedReleaseVersion)
                     .font(.system(.caption2, design: .rounded, weight: .bold))
                     .foregroundColor(.primary)
             }

@@ -74,7 +74,7 @@ struct Provider: AppIntentTimelineProvider {
         }
         
         if let s = stats {
-            let deltas = HistoryManager.shared.calculateDeltas(owner: s.owner, repo: s.repo, currentTotal: s.totalDownloads)
+            let deltas = HistoryManager.shared.calculateDeltas(owner: s.owner, repo: s.repo, currentDownloads: s.totalDownloads, currentClones: s.totalClones, currentViews: s.totalViews)
             stats = RepoStats(
                 owner: s.owner,
                 repo: s.repo,
@@ -87,8 +87,13 @@ struct Provider: AppIntentTimelineProvider {
                 uniqueCloners: s.uniqueCloners,
                 totalViews: s.totalViews,
                 uniqueVisitors: s.uniqueVisitors,
-                downloadsToday: deltas.today,
-                downloadsThisWeek: deltas.thisWeek
+                downloadsToday: deltas.downloadsToday,
+                downloadsThisWeek: deltas.downloadsThisWeek,
+                clonesToday: deltas.clonesToday,
+                clonesThisWeek: deltas.clonesThisWeek,
+                viewsToday: deltas.viewsToday,
+                viewsThisWeek: deltas.viewsThisWeek,
+                isTrafficAuthorized: s.isTrafficAuthorized
             )
         }
         

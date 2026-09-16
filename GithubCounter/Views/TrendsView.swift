@@ -109,17 +109,19 @@ struct TrendsView: View {
     private var metricsGrid: some View {
         HStack(spacing: 16) {
             let total = snapshots.last?.totalDownloads ?? 0
+            let clones = snapshots.last?.totalClones ?? 0
+            let views = snapshots.last?.totalViews ?? 0
+            let deltas = HistoryManager.shared.calculateDeltas(owner: sharedData.savedOwner, repo: sharedData.savedRepo, currentDownloads: total, currentClones: clones, currentViews: views)
+            
             MetricCard(title: "Total All-Time", value: formatNumber(total), color: .purple)
             
-            let deltas = HistoryManager.shared.calculateDeltas(owner: sharedData.savedOwner, repo: sharedData.savedRepo, currentTotal: total)
-            
-            if let today = deltas.today {
+            if let today = deltas.downloadsToday {
                 MetricCard(title: "Gained Today", value: "+\(formatNumber(today))", color: .green)
             } else {
                 MetricCard(title: "Gained Today", value: "-", color: .secondary)
             }
             
-            if let week = deltas.thisWeek {
+            if let week = deltas.downloadsThisWeek {
                 MetricCard(title: "Gained This Week", value: "+\(formatNumber(week))", color: .blue)
             } else {
                 MetricCard(title: "Gained This Week", value: "-", color: .secondary)

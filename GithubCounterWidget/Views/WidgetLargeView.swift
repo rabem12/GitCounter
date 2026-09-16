@@ -213,22 +213,55 @@ struct WidgetLargeView: View {
             switch m {
             case .downloads:
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(stats.latestReleaseVersion)
+                    Text(stats.formattedReleaseVersion)
                         .font(.system(size: 10, weight: .semibold, design: .rounded))
                         .foregroundColor(.blue)
                         .lineLimit(1)
                     Text("\(stats.formattedLatestDownloads) latest")
                         .font(.system(size: 10, weight: .medium, design: .rounded))
                         .foregroundColor(.secondary)
+                    if let delta = stats.formattedDeltaToday {
+                        Text("\(delta) today")
+                            .font(.system(size: 9, weight: .bold, design: .rounded))
+                            .foregroundColor(.green)
+                    }
                 }
             case .clones:
-                Text("\(stats.uniqueCloners) unique")
-                    .font(.system(size: 10, weight: .medium, design: .rounded))
-                    .foregroundColor(.secondary)
+                VStack(alignment: .leading, spacing: 2) {
+                    if stats.isTrafficAuthorized {
+                        Text("\(stats.uniqueCloners) unique")
+                            .font(.system(size: 10, weight: .medium, design: .rounded))
+                            .foregroundColor(.secondary)
+                        
+                        if let delta = stats.formattedClonesToday {
+                            Text("\(delta) today")
+                                .font(.system(size: 9, weight: .bold, design: .rounded))
+                                .foregroundColor(.green)
+                        }
+                    } else {
+                        Text("Data Not Public")
+                            .font(.system(size: 10, weight: .medium, design: .rounded))
+                            .foregroundColor(.secondary)
+                    }
+                }
             case .views:
-                Text("\(stats.uniqueVisitors) unique")
-                    .font(.system(size: 10, weight: .medium, design: .rounded))
-                    .foregroundColor(.secondary)
+                VStack(alignment: .leading, spacing: 2) {
+                    if stats.isTrafficAuthorized {
+                        Text("\(stats.uniqueVisitors) unique")
+                            .font(.system(size: 10, weight: .medium, design: .rounded))
+                            .foregroundColor(.secondary)
+                            
+                        if let delta = stats.formattedViewsToday {
+                            Text("\(delta) today")
+                                .font(.system(size: 9, weight: .bold, design: .rounded))
+                                .foregroundColor(.green)
+                        }
+                    } else {
+                        Text("Data Not Public")
+                            .font(.system(size: 10, weight: .medium, design: .rounded))
+                            .foregroundColor(.secondary)
+                    }
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

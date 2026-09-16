@@ -157,7 +157,14 @@ class GitHubAPIService {
         var totalViews = 0
         var uniqueVisitors = 0
         
-        if let pat = pat?.trimmingCharacters(in: .whitespacesAndNewlines), !pat.isEmpty {
+        var isTrafficAuthorized = false
+        let repoIdentifier = "\(safeOwner)/\(safeRepo)"
+        let skipTrafficAPI = SharedPreferences.shared.isTrafficUnauthorized(for: repoIdentifier)
+        
+        if let pat = pat?.trimmingCharacters(in: .whitespacesAndNewlines), !pat.isEmpty, !skipTrafficAPI {
+            var clonesSuccess = false
+            var viewsSuccess = false
+            
             // Fetch Clones
             if let clonesURL = URL(string: "https://api.github.com/repos/\(safeOwner)/\(safeRepo)/traffic/clones") {
                 var req = URLRequest(url: clonesURL)
@@ -166,10 +173,16 @@ class GitHubAPIService {
                 req.setValue("Bearer \(pat)", forHTTPHeaderField: "Authorization")
                 
                 if let (cData, cRes) = try? await session.data(for: req),
-                   let httpRes = cRes as? HTTPURLResponse, httpRes.statusCode == 200,
-                   let clonesResponse = try? decoder.decode(GitHubTrafficClones.self, from: cData) {
-                    totalClones = clonesResponse.count
-                    uniqueCloners = clonesResponse.uniques
+                   let httpRes = cRes as? HTTPURLResponse {
+                    if httpRes.statusCode == 200, let clonesResponse = try? decoder.decode(GitHubTrafficClones.self, from: cData) {
+                        totalClones = clonesResponse.count
+                        uniqueCloners = clonesResponse.uniques
+                        clonesSuccess = true
+                    } else if httpRes.statusCode == 403 || httpRes.statusCode == 404 {
+                        DispatchQueue.main.async {
+                            SharedPreferences.shared.markTrafficUnauthorized(for: repoIdentifier)
+                        }
+                    }
                 }
             }
             
@@ -181,12 +194,20 @@ class GitHubAPIService {
                 req.setValue("Bearer \(pat)", forHTTPHeaderField: "Authorization")
                 
                 if let (vData, vRes) = try? await session.data(for: req),
-                   let httpRes = vRes as? HTTPURLResponse, httpRes.statusCode == 200,
-                   let viewsResponse = try? decoder.decode(GitHubTrafficViews.self, from: vData) {
-                    totalViews = viewsResponse.count
-                    uniqueVisitors = viewsResponse.uniques
+                   let httpRes = vRes as? HTTPURLResponse {
+                    if httpRes.statusCode == 200, let viewsResponse = try? decoder.decode(GitHubTrafficViews.self, from: vData) {
+                        totalViews = viewsResponse.count
+                        uniqueVisitors = viewsResponse.uniques
+                        viewsSuccess = true
+                    } else if httpRes.statusCode == 403 || httpRes.statusCode == 404 {
+                        DispatchQueue.main.async {
+                            SharedPreferences.shared.markTrafficUnauthorized(for: repoIdentifier)
+                        }
+                    }
                 }
             }
+            
+            isTrafficAuthorized = clonesSuccess && viewsSuccess
         }
         
         // Fallback: If no traffic data was retrieved (e.g. no PAT or API failed), try fetching from the public CSV
@@ -224,7 +245,8 @@ class GitHubAPIService {
             totalClones: totalClones,
             uniqueCloners: uniqueCloners,
             totalViews: totalViews,
-            uniqueVisitors: uniqueVisitors
+            uniqueVisitors: uniqueVisitors,
+            isTrafficAuthorized: isTrafficAuthorized
         )
         
         let debugString = "Fetched \(trimmedOwner)/\(trimmedRepo) -> Clones: \(totalClones), Views: \(totalViews)\n"
