@@ -47,6 +47,18 @@ struct ContentView: View {
                     .foregroundColor(.secondary)
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Link(destination: URL(string: "https://ko-fi.com/raven_lord")!) {
+                    HStack {
+                        Text("☕️")
+                        Text("Support the Developer")
+                            .fontWeight(.medium)
+                    }
+                }
+                .buttonStyle(.bordered)
+            }
+        }
         .onOpenURL { url in
             handleIncomingURL(url)
         }

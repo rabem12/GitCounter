@@ -9,6 +9,16 @@ class DiagnosticsManager: ObservableObject {
     @Published var filesInSharedDirectory: [String] = []
     @Published var fileContents: [String: String] = [:]
     
+    let coreFileNames: Set<String> = ["shared_prefs.json", "pat_store.json", "repos_manifest.json"]
+    
+    var coreFiles: [String] {
+        return filesInSharedDirectory.filter { coreFileNames.contains($0) }
+    }
+    
+    var cacheFiles: [String] {
+        return filesInSharedDirectory.filter { !coreFileNames.contains($0) && !$0.starts(with: "Error") }
+    }
+    
     private init() {
         refresh()
     }
@@ -59,6 +69,17 @@ class DiagnosticsManager: ObservableObject {
         } catch {
             filesInSharedDirectory = ["Error reading Widget Documents: \(error.localizedDescription)"]
             fileContents.removeAll()
+        }
+    }
+    
+    func deleteFile(named filename: String) {
+        let documentsPath = NSHomeDirectory() + "/Library/Containers/io.githubcounter.GithubCounterApp.Widget/Data/Documents"
+        let path = documentsPath + "/" + filename
+        do {
+            try FileManager.default.removeItem(atPath: path)
+            refresh() // Refresh the list after deleting
+        } catch {
+            print("Failed to delete file \(filename): \(error.localizedDescription)")
         }
     }
 }

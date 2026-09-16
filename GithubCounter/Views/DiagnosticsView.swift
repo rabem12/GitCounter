@@ -35,23 +35,63 @@ struct DiagnosticsView: View {
                         .textSelection(.enabled)
                 }
                 
-                Section(header: Text("Files Found").font(.headline)) {
-                    ForEach(manager.filesInSharedDirectory, id: \.self) { file in
-                        VStack(alignment: .leading) {
-                            Text(file)
-                                .font(.system(.body, design: .monospaced))
-                                .bold()
-                            
-                            if let content = manager.fileContents[file] {
-                                Text(content)
-                                    .font(.system(.caption, design: .monospaced))
-                                    .foregroundColor(.secondary)
-                                    .textSelection(.enabled)
+                if !manager.coreFiles.isEmpty {
+                    Section(header: Text("Core App Data").font(.headline)) {
+                        ForEach(manager.coreFiles, id: \.self) { file in
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(file)
+                                        .font(.system(.body, design: .monospaced))
+                                        .bold()
+                                    
+                                    if let content = manager.fileContents[file] {
+                                        Text(content)
+                                            .font(.system(.caption, design: .monospaced))
+                                            .foregroundColor(.secondary)
+                                            .textSelection(.enabled)
+                                    }
+                                }
+                                
+                                Spacer()
                             }
+                            .padding()
+                            .background(Color(NSColor.controlBackgroundColor))
+                            .cornerRadius(8)
                         }
-                        .padding()
-                        .background(Color(NSColor.controlBackgroundColor))
-                        .cornerRadius(8)
+                    }
+                }
+                
+                if !manager.cacheFiles.isEmpty {
+                    Section(header: Text("Cached Data & History").font(.headline)) {
+                        ForEach(manager.cacheFiles, id: \.self) { file in
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(file)
+                                        .font(.system(.body, design: .monospaced))
+                                        .bold()
+                                    
+                                    if let content = manager.fileContents[file] {
+                                        Text(content)
+                                            .font(.system(.caption, design: .monospaced))
+                                            .foregroundColor(.secondary)
+                                            .textSelection(.enabled)
+                                    }
+                                }
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    manager.deleteFile(named: file)
+                                }) {
+                                    Image(systemName: "trash")
+                                        .foregroundColor(.red)
+                                }
+                                .buttonStyle(BorderlessButtonStyle())
+                            }
+                            .padding()
+                            .background(Color(NSColor.controlBackgroundColor))
+                            .cornerRadius(8)
+                        }
                     }
                 }
             }
