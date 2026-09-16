@@ -39,6 +39,11 @@ struct RepoStats: Codable {
     let totalViews: Int
     let uniqueVisitors: Int
     
+    // New Public Metrics
+    let stars: Int
+    let forks: Int
+    let openIssues: Int
+    
     let downloadsToday: Int?
     let downloadsThisWeek: Int?
     let clonesToday: Int?
@@ -48,7 +53,7 @@ struct RepoStats: Codable {
     
     let isTrafficAuthorized: Bool
     
-    init(owner: String, repo: String, totalDownloads: Int, latestReleaseVersion: String, latestReleaseDownloads: Int, lastRefreshed: Date, isCached: Bool, totalClones: Int = 0, uniqueCloners: Int = 0, totalViews: Int = 0, uniqueVisitors: Int = 0, downloadsToday: Int? = nil, downloadsThisWeek: Int? = nil, clonesToday: Int? = nil, clonesThisWeek: Int? = nil, viewsToday: Int? = nil, viewsThisWeek: Int? = nil, isTrafficAuthorized: Bool = true) {
+    init(owner: String, repo: String, totalDownloads: Int, latestReleaseVersion: String, latestReleaseDownloads: Int, lastRefreshed: Date, isCached: Bool, totalClones: Int = 0, uniqueCloners: Int = 0, totalViews: Int = 0, uniqueVisitors: Int = 0, stars: Int = 0, forks: Int = 0, openIssues: Int = 0, downloadsToday: Int? = nil, downloadsThisWeek: Int? = nil, clonesToday: Int? = nil, clonesThisWeek: Int? = nil, viewsToday: Int? = nil, viewsThisWeek: Int? = nil, isTrafficAuthorized: Bool = true) {
         self.owner = owner
         self.repo = repo
         self.totalDownloads = totalDownloads
@@ -60,6 +65,9 @@ struct RepoStats: Codable {
         self.uniqueCloners = uniqueCloners
         self.totalViews = totalViews
         self.uniqueVisitors = uniqueVisitors
+        self.stars = stars
+        self.forks = forks
+        self.openIssues = openIssues
         self.downloadsToday = downloadsToday
         self.downloadsThisWeek = downloadsThisWeek
         self.clonesToday = clonesToday

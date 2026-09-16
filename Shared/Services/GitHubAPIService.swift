@@ -10,6 +10,18 @@ struct GitHubTrafficViews: Codable {
     let uniques: Int
 }
 
+struct GitHubRepoBasic: Codable {
+    let stargazersCount: Int
+    let forksCount: Int
+    let openIssuesCount: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case stargazersCount = "stargazers_count"
+        case forksCount = "forks_count"
+        case openIssuesCount = "open_issues_count"
+    }
+}
+
 enum GitHubAPIError: LocalizedError {
     case invalidURL
     case networkError(Error)
@@ -69,7 +81,30 @@ class GitHubAPIService {
         var hasMorePages = true
         var isFirstStableReleaseFound = false
         
+        var stars = 0
+        var forks = 0
+        var openIssues = 0
+        
         let decoder = JSONDecoder()
+        
+        // Fetch basic repo stats
+        let basicUrlString = "https://api.github.com/repos/\(safeOwner)/\(safeRepo)"
+        if let basicUrl = URL(string: basicUrlString) {
+            var request = URLRequest(url: basicUrl)
+            request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+            request.setValue("GithubCounterWidget/1.0", forHTTPHeaderField: "User-Agent")
+            if let pat = pat?.trimmingCharacters(in: .whitespacesAndNewlines), !pat.isEmpty {
+                request.setValue("Bearer \(pat)", forHTTPHeaderField: "Authorization")
+            }
+            if let (basicData, basicResponse) = try? await session.data(for: request),
+               let httpResponse = basicResponse as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                if let basicInfo = try? decoder.decode(GitHubRepoBasic.self, from: basicData) {
+                    stars = basicInfo.stargazersCount
+                    forks = basicInfo.forksCount
+                    openIssues = basicInfo.openIssuesCount
+                }
+            }
+        }
         
         while hasMorePages && page <= maxPages {
             let urlString = "https://api.github.com/repos/\(safeOwner)/\(safeRepo)/releases?per_page=100&page=\(page)"
@@ -246,6 +281,9 @@ class GitHubAPIService {
             uniqueCloners: uniqueCloners,
             totalViews: totalViews,
             uniqueVisitors: uniqueVisitors,
+            stars: stars,
+            forks: forks,
+            openIssues: openIssues,
             isTrafficAuthorized: isTrafficAuthorized
         )
         

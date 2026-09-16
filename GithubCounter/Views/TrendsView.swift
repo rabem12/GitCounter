@@ -1,5 +1,6 @@
 import SwiftUI
 import Charts
+import WidgetKit
 
 struct TrendsView: View {
     @ObservedObject private var sharedData = SharedPreferences.shared
@@ -8,9 +9,21 @@ struct TrendsView: View {
     @State private var showCopiedMessage = false
     @State private var showClearConfirmation = false
     
+    @State private var owner: String = ""
+    @State private var repo: String = ""
+    @State private var pat: String = ""
+    @State private var isFetching: Bool = false
+    @State private var currentStats: RepoStats?
+    
     var body: some View {
         VStack(spacing: 20) {
             headerView
+            
+            inputSection
+            
+            if let stats = currentStats {
+                publicMetricsRow(stats: stats)
+            }
             
             if snapshots.isEmpty {
                 emptyStateView
@@ -31,9 +44,79 @@ struct TrendsView: View {
             }
         }
         .padding()
-        .onAppear(perform: loadSnapshots)
+        .onAppear {
+            if owner.isEmpty {
+                owner = sharedData.savedOwner
+            }
+            if repo.isEmpty {
+                repo = sharedData.savedRepo
+            }
+            if pat.isEmpty {
+                pat = SecretsManager.shared.getPAT()
+            }
+            loadSnapshots()
+            if !owner.isEmpty && !repo.isEmpty {
+                fetchStats()
+            }
+        }
         .onChange(of: sharedData.savedOwner) { _ in loadSnapshots() }
         .onChange(of: sharedData.savedRepo) { _ in loadSnapshots() }
+    }
+    
+    private var inputSection: some View {
+        VStack(spacing: 12) {
+            HStack {
+                TextField("Owner (e.g., apple)", text: $owner)
+                    .textFieldStyle(.roundedBorder)
+                
+                TextField("Repository (e.g., swift)", text: $repo)
+                    .textFieldStyle(.roundedBorder)
+                
+                SecureField("Global PAT (Optional)", text: $pat)
+                    .textFieldStyle(.roundedBorder)
+            }
+            
+            HStack(spacing: 16) {
+                Button(action: fetchStats) {
+                    if isFetching {
+                        ProgressView()
+                            .scaleEffect(0.5)
+                            .frame(width: 100)
+                    } else {
+                        Text("Test Connection")
+                            .frame(width: 100)
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(owner.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || repo.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isFetching)
+                
+                if !pat.isEmpty {
+                    Button("Clear PAT") {
+                        pat = ""
+                        SecretsManager.shared.clearPAT()
+                        WidgetCenter.shared.reloadAllTimelines()
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.red)
+                }
+            }
+        }
+        .padding()
+        .background(Color(NSColor.controlBackgroundColor))
+        .cornerRadius(12)
+    }
+    
+    private func publicMetricsRow(stats: RepoStats) -> some View {
+        HStack(spacing: 24) {
+            Label("\(formatNumber(stats.stars)) Stars", systemImage: "star.fill")
+                .foregroundColor(.yellow)
+            Label("\(formatNumber(stats.forks)) Forks", systemImage: "tuningfork")
+                .foregroundColor(.blue)
+            Label("\(formatNumber(stats.openIssues)) Open Issues", systemImage: "ladybug.fill")
+                .foregroundColor(.red)
+        }
+        .font(.headline)
+        .padding(.vertical, 8)
     }
     
     private var headerView: some View {
@@ -270,6 +353,35 @@ struct TrendsView: View {
                 }
             } catch {
                 print("Failed to fetch cloud CSV: \(error)")
+            }
+        }
+    }
+    
+    private func fetchStats() {
+        let cleanOwner = owner.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanRepo = repo.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanPat = pat.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        isFetching = true
+        currentStats = nil
+        
+        Task {
+            do {
+                let fetchedStats = try await GitHubAPIService.shared.fetchStats(owner: cleanOwner, repo: cleanRepo, pat: cleanPat)
+                await MainActor.run {
+                    self.currentStats = fetchedStats
+                    self.isFetching = false
+                    sharedData.savedOwner = cleanOwner
+                    sharedData.savedRepo = cleanRepo
+                    SecretsManager.shared.savePAT(cleanPat)
+                    WidgetCenter.shared.reloadAllTimelines()
+                    loadSnapshots()
+                }
+            } catch {
+                await MainActor.run {
+                    self.isFetching = false
+                    print("Error fetching stats: \(error)")
+                }
             }
         }
     }

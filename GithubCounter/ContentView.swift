@@ -1,28 +1,28 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selection: SidebarItem? = .sandbox
+    @State private var selection: SidebarItem? = .trends
     
     enum SidebarItem: Hashable {
-        case sandbox
-        case setupGuide
         case trends
+        case launchpad
+        case setupGuide
         case diagnostics
     }
     
     var body: some View {
         NavigationSplitView {
             List(selection: $selection) {
-                NavigationLink(value: SidebarItem.sandbox) {
-                    Label("Repo Sandbox", systemImage: "testtube.2")
+                NavigationLink(value: SidebarItem.trends) {
+                    Label("Dashboard", systemImage: "chart.xyaxis.line")
+                }
+                
+                NavigationLink(value: SidebarItem.launchpad) {
+                    Label("Launchpad", systemImage: "rocket.fill")
                 }
                 
                 NavigationLink(value: SidebarItem.setupGuide) {
                     Label("Setup Guide", systemImage: "book.fill")
-                }
-                
-                NavigationLink(value: SidebarItem.trends) {
-                    Label("Trends & History", systemImage: "chart.xyaxis.line")
                 }
                 
                 NavigationLink(value: SidebarItem.diagnostics) {
@@ -33,12 +33,12 @@ struct ContentView: View {
         } detail: {
             if let selection = selection {
                 switch selection {
-                case .sandbox:
-                    RepoSandboxView()
-                case .setupGuide:
-                    SetupGuideView()
                 case .trends:
                     TrendsView()
+                case .launchpad:
+                    LaunchpadView()
+                case .setupGuide:
+                    SetupGuideView()
                 case .diagnostics:
                     DiagnosticsView()
                 }
