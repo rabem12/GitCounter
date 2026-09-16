@@ -27,3 +27,9 @@ Carthage/Build/
 
 # OS X
 .DS_Store
+
+# Scratch and Test Files
+scratch/
+test/
+temp/
+*.log

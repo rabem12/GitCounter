@@ -30,7 +30,7 @@ struct ContentView: View {
                 
                 // Primary
                 SidebarButton(title: "Dashboard", systemImage: "chart.xyaxis.line", iconColor: .blue, item: .trends, selection: $selection)
-                SidebarButton(title: "Launchpad", systemImage: "rocket.fill", iconColor: .orange, item: .launchpad, selection: $selection)
+                SidebarButton(title: "Launchpad", systemImage: "paperplane.fill", iconColor: .orange, item: .launchpad, selection: $selection)
                 
                 Spacer()
                 
@@ -70,35 +70,24 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
             }
         }
-        .onOpenURL { url in
-            handleIncomingURL(url)
+        .onReceive(NotificationCenter.default.publisher(for: .didReceiveDeepLink)) { notification in
+            if let url = notification.object as? URL {
+                handleIncomingURL(url)
+            }
+        }
+        .onAppear {
+            AppDelegate.isContentViewReady = true
+            if let pending = AppDelegate.pendingWidgetURL {
+                AppDelegate.pendingWidgetURL = nil
+                AppDelegate.processDeepLink(pending)
+            }
         }
     }
     
     private func handleIncomingURL(_ url: URL) {
-        DiagnosticsManager.shared.logOpenedURL(url)
-        
+        // Only need to switch the tab, as AppDelegate already saved the owner/repo to SharedPreferences
         guard url.scheme == "githubcounter", url.host == "trends" else { return }
-        
-        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        guard let queryItems = components?.queryItems else { return }
-        
-        var newOwner: String?
-        var newRepo: String?
-        
-        for item in queryItems {
-            if item.name == "owner" {
-                newOwner = item.value
-            } else if item.name == "repo" {
-                newRepo = item.value
-            }
-        }
-        
-        if let owner = newOwner, let repo = newRepo {
-            SharedPreferences.shared.savedOwner = owner
-            SharedPreferences.shared.savedRepo = repo
-            selection = .trends
-        }
+        selection = .trends
     }
 }
 

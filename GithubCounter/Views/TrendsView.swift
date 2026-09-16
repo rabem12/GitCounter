@@ -59,8 +59,16 @@ struct TrendsView: View {
                 fetchStats()
             }
         }
-        .onChange(of: sharedData.savedOwner) { _ in loadSnapshots() }
-        .onChange(of: sharedData.savedRepo) { _ in loadSnapshots() }
+        .onChange(of: sharedData.savedOwner) { newValue in
+            owner = newValue
+            loadSnapshots()
+            if !owner.isEmpty && !repo.isEmpty { fetchStats() }
+        }
+        .onChange(of: sharedData.savedRepo) { newValue in
+            repo = newValue
+            loadSnapshots()
+            if !owner.isEmpty && !repo.isEmpty { fetchStats() }
+        }
     }
     
     private var inputSection: some View {
