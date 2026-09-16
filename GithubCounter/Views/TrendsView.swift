@@ -7,6 +7,14 @@ struct TrendsView: View {
     @State private var snapshots: [DownloadSnapshot] = []
     @State private var showCopiedMessage = false
     @State private var showClearConfirmation = false
+    @State private var selectedMetric: ChartMetric = .downloads
+    
+    enum ChartMetric: String, CaseIterable, Identifiable {
+        case downloads = "Downloads"
+        case clones = "Clones"
+        case views = "Views"
+        var id: String { self.rawValue }
+    }
     
     var body: some View {
         VStack(spacing: 20) {
@@ -52,6 +60,18 @@ struct TrendsView: View {
                         .foregroundColor(.secondary)
                 }
             }
+            Spacer()
+            
+            if !snapshots.isEmpty {
+                Picker("Metric", selection: $selectedMetric) {
+                    ForEach(ChartMetric.allCases) { metric in
+                        Text(metric.rawValue).tag(metric)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .frame(maxWidth: 300)
+            }
+            
             Spacer()
             
             if !sharedData.savedOwner.isEmpty && !sharedData.savedRepo.isEmpty {
@@ -130,17 +150,18 @@ struct TrendsView: View {
     
     private var cumulativeChart: some View {
         Chart(snapshots) { snapshot in
+            let yValue = chartYValue(for: snapshot)
             AreaMark(
                 x: .value("Date", snapshot.date),
-                y: .value("Downloads", snapshot.totalDownloads)
+                y: .value(selectedMetric.rawValue, yValue)
             )
-            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.purple.opacity(0.5), .blue.opacity(0.1)]), startPoint: .top, endPoint: .bottom))
+            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [chartColor().opacity(0.5), chartColor().opacity(0.1)]), startPoint: .top, endPoint: .bottom))
             
             LineMark(
                 x: .value("Date", snapshot.date),
-                y: .value("Downloads", snapshot.totalDownloads)
+                y: .value(selectedMetric.rawValue, yValue)
             )
-            .foregroundStyle(.purple)
+            .foregroundStyle(chartColor())
             .symbol(Circle())
         }
         .chartXAxis {
@@ -154,9 +175,9 @@ struct TrendsView: View {
         return Chart(velocityData, id: \.date) { item in
             BarMark(
                 x: .value("Date", item.date),
-                y: .value("Downloads Gained", item.gained)
+                y: .value("\(selectedMetric.rawValue) Gained", item.gained)
             )
-            .foregroundStyle(.blue)
+            .foregroundStyle(chartColor())
         }
         .chartXAxis {
             AxisMarks(values: .stride(by: .day))
@@ -227,10 +248,28 @@ struct TrendsView: View {
         for i in 1..<snapshots.count {
             let prev = snapshots[i-1]
             let curr = snapshots[i]
-            let gained = max(0, curr.totalDownloads - prev.totalDownloads)
+            let prevY = chartYValue(for: prev)
+            let currY = chartYValue(for: curr)
+            let gained = max(0, currY - prevY)
             results.append(VelocityItem(date: curr.date, gained: gained))
         }
         return results
+    }
+    
+    private func chartYValue(for snapshot: DownloadSnapshot) -> Int {
+        switch selectedMetric {
+        case .downloads: return snapshot.totalDownloads
+        case .clones: return snapshot.totalClones ?? 0
+        case .views: return snapshot.totalViews ?? 0
+        }
+    }
+    
+    private func chartColor() -> Color {
+        switch selectedMetric {
+        case .downloads: return .purple
+        case .clones: return .orange
+        case .views: return .green
+        }
     }
     
     private func exportCSV() {

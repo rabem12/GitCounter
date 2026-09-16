@@ -54,7 +54,7 @@ struct WidgetSmallView: View {
                         .foregroundColor(.green)
                 }
             case .clones:
-                Text("\(stats.totalClones ?? 0)")
+                Text("\(stats.totalClones)")
                     .font(.system(.title, design: .rounded, weight: .bold))
                     .foregroundColor(.primary)
                     .minimumScaleFactor(0.5)
@@ -68,7 +68,7 @@ struct WidgetSmallView: View {
                     .font(.system(size: 9, weight: .bold, design: .rounded))
                     .foregroundColor(.blue)
             case .views:
-                Text("\(stats.totalViews ?? 0)")
+                Text("\(stats.totalViews)")
                     .font(.system(.title, design: .rounded, weight: .bold))
                     .foregroundColor(.primary)
                     .minimumScaleFactor(0.5)

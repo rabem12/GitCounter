@@ -17,7 +17,7 @@ enum WidgetPrimaryMetric: String, AppEnum {
 }
 
 @available(macOS 14.0, *)
-struct SelectRepositoryIntent: WidgetConfigurationIntent {
+struct RepoStatsIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Select Repository"
     static var description = IntentDescription("Configure the GitHub repository to track release downloads.")
     
@@ -38,7 +38,7 @@ struct SelectRepositoryIntent: WidgetConfigurationIntent {
     var repo: String
     
     @Parameter(title: "Primary Metric", default: .downloads)
-    var metric: WidgetPrimaryMetric?
+    var metric: WidgetPrimaryMetric
     
     init() {
         self.owner = ""
@@ -46,7 +46,7 @@ struct SelectRepositoryIntent: WidgetConfigurationIntent {
         self.metric = .downloads
     }
     
-    init(owner: String, repo: String, metric: WidgetPrimaryMetric? = .downloads) {
+    init(owner: String, repo: String, metric: WidgetPrimaryMetric = .downloads) {
         self.owner = owner
         self.repo = repo
         self.metric = metric

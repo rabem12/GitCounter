@@ -10,6 +10,7 @@
 		0CE2AEA3E7414916D7FF2E67 /* DiagnosticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4680683A164C8934370DE4 /* DiagnosticsManager.swift */; };
 		16B7D4D2B1DEC6F4D153BAB0 /* SetupGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C5006C870C95550993D4DA /* SetupGuideView.swift */; };
 		1CA86BA5B6553448E3D9CE7A /* GithubCounterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212247A3ECB742FACCB94273 /* GithubCounterWidget.swift */; };
+		208E5565218C3752E1392117 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B474BC1BB6E0A6526BBD40E6 /* AppIntents.framework */; };
 		263F0268E0AC99A139852D70 /* WidgetSmallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F0A0069CC74AEE69FCD4C /* WidgetSmallView.swift */; };
 		26BF9929E646C92C608E7EB1 /* GithubCounterWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F1EA43AFE0A0AAC566C8D7 /* GithubCounterWidgetBundle.swift */; };
 		29FD95951DC78B1259EBC90E /* RefreshWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC74FF4DB2D18ED6A32B5C47 /* RefreshWidgetIntent.swift */; };
@@ -22,12 +23,14 @@
 		4D574FB883822F6FE4F905D4 /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5815DABE2D1B198E78B4501 /* HistoryManager.swift */; };
 		539BFE4654BF2EF6E65ECF5D /* GithubCounterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09FBFD4A34BBA947ACCDD46 /* GithubCounterApp.swift */; };
 		5C3B44E8F10CCF69C86F31AD /* RepoStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77EF4B334D0EE02C2082D42 /* RepoStats.swift */; };
+		5FCCF59C9DBAB3FFE653545D /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7077EF0204D741C61D9B131A /* WidgetKit.framework */; };
 		5FD4BB85CD1CFF64BBA4B422 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5280E9222F7BB765796EF7 /* ContentView.swift */; };
 		6509C1B1301EF650C7AE2408 /* SharedDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69F74345F80CC2A6C0DC299 /* SharedDataManager.swift */; };
 		676185469463FF827ADA2F19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9474819E5C05A14A4D152F4B /* Assets.xcassets */; };
 		69ACE7DABE10A0CDB478C5B9 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E16A902C8B314B4E530184C /* CacheManager.swift */; };
 		6BC9647803405E997AD54394 /* WidgetLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A631779DB8091AFF582E27F4 /* WidgetLargeView.swift */; };
 		84F444BB69BCEFA62A34235C /* DownloadSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19661382614750E73B7AEA69 /* DownloadSnapshot.swift */; };
+		8BB730CF1E8B7892ACD1A804 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B474BC1BB6E0A6526BBD40E6 /* AppIntents.framework */; };
 		A72E128CEDC41F5C80F5F5FD /* RepoSandboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F100386D436FE7C91D1488 /* RepoSandboxView.swift */; };
 		A8AB199FA8F3576E886E528B /* GithubCounterWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C3B2D6689586F4CFBEA8F9C0 /* GithubCounterWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AEF4D1427CFBC2BF83A60729 /* SelectRepositoryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6817C36EAB420909200749 /* SelectRepositoryIntent.swift */; };
@@ -39,6 +42,7 @@
 		ED9136B8869E5847FD896C66 /* RefreshWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC74FF4DB2D18ED6A32B5C47 /* RefreshWidgetIntent.swift */; };
 		F0D29F9A64CB1C113C058C25 /* GitHubAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E3210D1A6653BF05F03387 /* GitHubAPIService.swift */; };
 		F4E51A3BA79EE6742BF3E9A4 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E16A902C8B314B4E530184C /* CacheManager.swift */; };
+		F4F5CCBD43D6FE21FB9C756F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7077EF0204D741C61D9B131A /* WidgetKit.framework */; };
 		F5A60AA8101DBA1BD2DAFDA6 /* SecretsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AAB4E0AA1FAC1168848764 /* SecretsManager.swift */; };
 		FBFA640D9F2A89137F4E17FA /* DiagnosticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4680683A164C8934370DE4 /* DiagnosticsManager.swift */; };
 		FC86F50F3CC5DA33D32D93A5 /* WidgetSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933249CAC9C430885398C3CD /* WidgetSetupView.swift */; };
@@ -78,6 +82,7 @@
 		2E5280E9222F7BB765796EF7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		31F100386D436FE7C91D1488 /* RepoSandboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoSandboxView.swift; sourceTree = "<group>"; };
 		400A0A48D3C4554375F486D2 /* DiagnosticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticsView.swift; sourceTree = "<group>"; };
+		7077EF0204D741C61D9B131A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		77AAB4E0AA1FAC1168848764 /* SecretsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretsManager.swift; sourceTree = "<group>"; };
 		91049BC9734DE3E5316C6C01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		933249CAC9C430885398C3CD /* WidgetSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSetupView.swift; sourceTree = "<group>"; };
@@ -86,6 +91,7 @@
 		A631779DB8091AFF582E27F4 /* WidgetLargeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetLargeView.swift; sourceTree = "<group>"; };
 		AC4F0A0069CC74AEE69FCD4C /* WidgetSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSmallView.swift; sourceTree = "<group>"; };
 		B09FBFD4A34BBA947ACCDD46 /* GithubCounterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubCounterApp.swift; sourceTree = "<group>"; };
+		B474BC1BB6E0A6526BBD40E6 /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
 		B77EF4B334D0EE02C2082D42 /* RepoStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoStats.swift; sourceTree = "<group>"; };
 		C3B2D6689586F4CFBEA8F9C0 /* GithubCounterWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GithubCounterWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5C5006C870C95550993D4DA /* SetupGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupGuideView.swift; sourceTree = "<group>"; };
@@ -98,6 +104,27 @@
 		F69F74345F80CC2A6C0DC299 /* SharedDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDataManager.swift; sourceTree = "<group>"; };
 		FBEECC9DBADA8524B71C41DE /* TrendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4DBDB58926795778B49C8ED4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				208E5565218C3752E1392117 /* AppIntents.framework in Frameworks */,
+				5FCCF59C9DBAB3FFE653545D /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71D72472387D660FFED1B2F5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BB730CF1E8B7892ACD1A804 /* AppIntents.framework in Frameworks */,
+				F4F5CCBD43D6FE21FB9C756F /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		07D74F318652255A09AED720 /* Models */ = {
@@ -126,6 +153,7 @@
 				72B59957F906C562882AC90E /* GithubCounter */,
 				8618675BB96C075C9D90EE53 /* GithubCounterWidget */,
 				E423DB10AAE370256CF5EAB5 /* Shared */,
+				86206B095F67B4A4ABCFCAC7 /* Frameworks */,
 				FC20A1D443ECB4EBA6649203 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -172,6 +200,15 @@
 			path = GithubCounterWidget;
 			sourceTree = "<group>";
 		};
+		86206B095F67B4A4ABCFCAC7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B474BC1BB6E0A6526BBD40E6 /* AppIntents.framework */,
+				7077EF0204D741C61D9B131A /* WidgetKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E423DB10AAE370256CF5EAB5 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +252,7 @@
 			buildPhases = (
 				9BCC5E1BEC473B170291E837 /* Sources */,
 				07859701EA0F353B60EE91DD /* Resources */,
+				71D72472387D660FFED1B2F5 /* Frameworks */,
 				85AE9EBD9A769945FBAD179E /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -235,6 +273,7 @@
 			buildPhases = (
 				A8BC78CDC597FCB2EAA0CA0F /* Sources */,
 				A0BC8EB0BA992CB5645085E0 /* Resources */,
+				4DBDB58926795778B49C8ED4 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -366,14 +405,12 @@
 		13FCAF09853B075A83DC260B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = GithubCounterWidget/GithubCounterWidget.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = "";
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = GithubCounterWidget/Info.plist;
@@ -395,7 +432,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOX = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -476,14 +513,12 @@
 		846075982DDEFB5B24077925 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = GithubCounterWidget/GithubCounterWidget.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = "";
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = GithubCounterWidget/Info.plist;
@@ -561,7 +596,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOX = YES;
 				GENERATE_INFOPLIST_FILE = YES;

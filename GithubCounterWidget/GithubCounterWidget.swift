@@ -12,10 +12,10 @@ struct Provider: AppIntentTimelineProvider {
             lastRefreshed: Date(),
             isCached: false
         )
-        return SimpleEntry(date: Date(), configuration: SelectRepositoryIntent(), stats: dummyStats, errorMessage: nil, isSetupRequired: false, history: [])
+        return SimpleEntry(date: Date(), configuration: RepoStatsIntent(), stats: dummyStats, errorMessage: nil, isSetupRequired: false, history: [])
     }
     
-    func snapshot(for configuration: SelectRepositoryIntent, in context: Context) async -> SimpleEntry {
+    func snapshot(for configuration: RepoStatsIntent, in context: Context) async -> SimpleEntry {
         let stats = RepoStats(
             owner: "apple",
             repo: "swift",
@@ -28,7 +28,7 @@ struct Provider: AppIntentTimelineProvider {
         return SimpleEntry(date: Date(), configuration: configuration, stats: stats, errorMessage: nil, isSetupRequired: false, history: [])
     }
     
-    func timeline(for configuration: SelectRepositoryIntent, in context: Context) async -> Timeline<SimpleEntry> {
+    func timeline(for configuration: RepoStatsIntent, in context: Context) async -> Timeline<SimpleEntry> {
         let owner = configuration.owner.trimmingCharacters(in: .whitespacesAndNewlines)
         let repo = configuration.repo.trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -107,7 +107,7 @@ struct Provider: AppIntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let configuration: SelectRepositoryIntent
+    let configuration: RepoStatsIntent
     let stats: RepoStats?
     let errorMessage: String?
     let isSetupRequired: Bool
@@ -125,13 +125,13 @@ struct GithubCounterWidgetEntryView : View {
             } else if let stats = entry.stats {
                 switch family {
                 case .systemSmall:
-                    WidgetSmallView(stats: stats, metric: entry.configuration.metric ?? .downloads)
+                    WidgetSmallView(stats: stats, metric: entry.configuration.metric)
                 case .systemMedium:
-                    WidgetMediumView(stats: stats, metric: entry.configuration.metric ?? .downloads)
+                    WidgetMediumView(stats: stats, metric: entry.configuration.metric)
                 case .systemLarge:
-                    WidgetLargeView(stats: stats, metric: entry.configuration.metric ?? .downloads, history: entry.history)
+                    WidgetLargeView(stats: stats, metric: entry.configuration.metric, history: entry.history)
                 default:
-                    WidgetSmallView(stats: stats, metric: entry.configuration.metric ?? .downloads)
+                    WidgetSmallView(stats: stats, metric: entry.configuration.metric)
                 }
             } else {
                 VStack {
@@ -158,7 +158,7 @@ struct GithubCounterWidget: Widget {
     let kind: String = "GithubCounterWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: SelectRepositoryIntent.self, provider: Provider()) { entry in
+        AppIntentConfiguration(kind: kind, intent: RepoStatsIntent.self, provider: Provider()) { entry in
             GithubCounterWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("GitHub Release Stats")
