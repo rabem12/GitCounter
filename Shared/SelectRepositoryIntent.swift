@@ -2,14 +2,14 @@ import AppIntents
 import WidgetKit
 
 @available(macOS 14.0, *)
-enum WidgetPrimaryMetric: String, AppEnum {
-    case downloads
-    case clones
-    case views
+enum WidgetDisplayMetric: String, AppEnum, CaseIterable {
+    case downloads = "downloads"
+    case clones = "clones"
+    case views = "views"
     
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Primary Metric")
     
-    static let caseDisplayRepresentations: [WidgetPrimaryMetric: DisplayRepresentation] = [
+    static let caseDisplayRepresentations: [WidgetDisplayMetric: DisplayRepresentation] = [
         .downloads: DisplayRepresentation(title: "Downloads"),
         .clones: DisplayRepresentation(title: "Clones"),
         .views: DisplayRepresentation(title: "Views")
@@ -17,7 +17,7 @@ enum WidgetPrimaryMetric: String, AppEnum {
 }
 
 @available(macOS 14.0, *)
-struct RepoStatsIntent: WidgetConfigurationIntent {
+struct RepositoryConfigIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Select Repository"
     static var description = IntentDescription("Configure the GitHub repository to track release downloads.")
     
@@ -38,17 +38,6 @@ struct RepoStatsIntent: WidgetConfigurationIntent {
     var repo: String
     
     @Parameter(title: "Primary Metric", default: .downloads)
-    var metric: WidgetPrimaryMetric
+    var displayMetric: WidgetDisplayMetric
     
-    init() {
-        self.owner = ""
-        self.repo = ""
-        self.metric = .downloads
-    }
-    
-    init(owner: String, repo: String, metric: WidgetPrimaryMetric = .downloads) {
-        self.owner = owner
-        self.repo = repo
-        self.metric = metric
-    }
 }

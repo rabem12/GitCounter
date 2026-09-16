@@ -4,7 +4,7 @@ import WidgetKit
 @available(macOS 14.0, *)
 struct WidgetSmallView: View {
     let stats: RepoStats
-    let metric: WidgetPrimaryMetric
+    let metric: WidgetDisplayMetric
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {

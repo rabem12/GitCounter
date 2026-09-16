@@ -5,17 +5,17 @@ import Charts
 @available(macOS 14.0, *)
 struct WidgetLargeView: View {
     let stats: RepoStats
-    let metric: WidgetPrimaryMetric
+    let metric: WidgetDisplayMetric
     let history: [DownloadSnapshot]
     
-    init(stats: RepoStats, metric: WidgetPrimaryMetric, history: [DownloadSnapshot]) {
+    init(stats: RepoStats, metric: WidgetDisplayMetric, history: [DownloadSnapshot]) {
         self.stats = stats
         self.metric = metric
         self.history = history
     }
     
-    var orderedMetrics: [WidgetPrimaryMetric] {
-        var metrics: [WidgetPrimaryMetric] = [.downloads, .clones, .views]
+    var orderedMetrics: [WidgetDisplayMetric] {
+        var metrics: [WidgetDisplayMetric] = [.downloads, .clones, .views]
         metrics.removeAll { $0 == metric }
         metrics.insert(metric, at: 0)
         return metrics
@@ -177,7 +177,7 @@ struct WidgetLargeView: View {
     }
     
     @ViewBuilder
-    func column(for m: WidgetPrimaryMetric) -> some View {
+    func column(for m: WidgetDisplayMetric) -> some View {
         let isSelected = (m == metric)
         
         VStack(alignment: .leading, spacing: 6) {
@@ -231,7 +231,7 @@ struct WidgetLargeView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    func metricTitle(for m: WidgetPrimaryMetric) -> String {
+    func metricTitle(for m: WidgetDisplayMetric) -> String {
         switch m {
         case .downloads: return "DOWNLOADS"
         case .clones: return "CLONES"
@@ -239,7 +239,7 @@ struct WidgetLargeView: View {
         }
     }
     
-    func metricIcon(for m: WidgetPrimaryMetric) -> String {
+    func metricIcon(for m: WidgetDisplayMetric) -> String {
         switch m {
         case .downloads: return "arrow.down.circle.fill"
         case .clones: return "doc.on.doc.fill"

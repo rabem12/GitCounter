@@ -1,5 +1,8 @@
 import WidgetKit
 import SwiftUI
+import OSLog
+
+let widgetLogger = Logger(subsystem: "io.githubcounter.GithubCounterApp", category: "WidgetProvider")
 
 struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
@@ -12,10 +15,11 @@ struct Provider: AppIntentTimelineProvider {
             lastRefreshed: Date(),
             isCached: false
         )
-        return SimpleEntry(date: Date(), configuration: RepoStatsIntent(), stats: dummyStats, errorMessage: nil, isSetupRequired: false, history: [])
+        return SimpleEntry(date: Date(), configuration: RepositoryConfigIntent(), stats: dummyStats, errorMessage: nil, isSetupRequired: false, history: [])
     }
     
-    func snapshot(for configuration: RepoStatsIntent, in context: Context) async -> SimpleEntry {
+    func snapshot(for configuration: RepositoryConfigIntent, in context: Context) async -> SimpleEntry {
+        widgetLogger.info("Snapshot requested. Metric: \(configuration.displayMetric.rawValue)")
         let stats = RepoStats(
             owner: "apple",
             repo: "swift",
@@ -28,7 +32,8 @@ struct Provider: AppIntentTimelineProvider {
         return SimpleEntry(date: Date(), configuration: configuration, stats: stats, errorMessage: nil, isSetupRequired: false, history: [])
     }
     
-    func timeline(for configuration: RepoStatsIntent, in context: Context) async -> Timeline<SimpleEntry> {
+    func timeline(for configuration: RepositoryConfigIntent, in context: Context) async -> Timeline<SimpleEntry> {
+        widgetLogger.info("Timeline requested. Metric: \(configuration.displayMetric.rawValue), Owner: \(configuration.owner), Repo: \(configuration.repo)")
         let owner = configuration.owner.trimmingCharacters(in: .whitespacesAndNewlines)
         let repo = configuration.repo.trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -107,7 +112,7 @@ struct Provider: AppIntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let configuration: RepoStatsIntent
+    let configuration: RepositoryConfigIntent
     let stats: RepoStats?
     let errorMessage: String?
     let isSetupRequired: Bool
@@ -125,13 +130,13 @@ struct GithubCounterWidgetEntryView : View {
             } else if let stats = entry.stats {
                 switch family {
                 case .systemSmall:
-                    WidgetSmallView(stats: stats, metric: entry.configuration.metric)
+                    WidgetSmallView(stats: stats, metric: entry.configuration.displayMetric)
                 case .systemMedium:
-                    WidgetMediumView(stats: stats, metric: entry.configuration.metric)
+                    WidgetMediumView(stats: stats, metric: entry.configuration.displayMetric)
                 case .systemLarge:
-                    WidgetLargeView(stats: stats, metric: entry.configuration.metric, history: entry.history)
+                    WidgetLargeView(stats: stats, metric: entry.configuration.displayMetric, history: entry.history)
                 default:
-                    WidgetSmallView(stats: stats, metric: entry.configuration.metric)
+                    WidgetSmallView(stats: stats, metric: entry.configuration.displayMetric)
                 }
             } else {
                 VStack {
@@ -158,7 +163,7 @@ struct GithubCounterWidget: Widget {
     let kind: String = "GithubCounterWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: RepoStatsIntent.self, provider: Provider()) { entry in
+        AppIntentConfiguration(kind: kind, intent: RepositoryConfigIntent.self, provider: Provider()) { entry in
             GithubCounterWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("GitHub Release Stats")

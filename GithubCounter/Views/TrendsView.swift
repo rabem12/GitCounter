@@ -7,14 +7,6 @@ struct TrendsView: View {
     @State private var snapshots: [DownloadSnapshot] = []
     @State private var showCopiedMessage = false
     @State private var showClearConfirmation = false
-    @State private var selectedMetric: ChartMetric = .downloads
-    
-    enum ChartMetric: String, CaseIterable, Identifiable {
-        case downloads = "Downloads"
-        case clones = "Clones"
-        case views = "Views"
-        var id: String { self.rawValue }
-    }
     
     var body: some View {
         VStack(spacing: 20) {
@@ -61,16 +53,6 @@ struct TrendsView: View {
                 }
             }
             Spacer()
-            
-            if !snapshots.isEmpty {
-                Picker("Metric", selection: $selectedMetric) {
-                    ForEach(ChartMetric.allCases) { metric in
-                        Text(metric.rawValue).tag(metric)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .frame(maxWidth: 300)
-            }
             
             Spacer()
             
@@ -153,13 +135,13 @@ struct TrendsView: View {
             let yValue = chartYValue(for: snapshot)
             AreaMark(
                 x: .value("Date", snapshot.date),
-                y: .value(selectedMetric.rawValue, yValue)
+                y: .value("Downloads", yValue)
             )
             .foregroundStyle(LinearGradient(gradient: Gradient(colors: [chartColor().opacity(0.5), chartColor().opacity(0.1)]), startPoint: .top, endPoint: .bottom))
             
             LineMark(
                 x: .value("Date", snapshot.date),
-                y: .value(selectedMetric.rawValue, yValue)
+                y: .value("Downloads", yValue)
             )
             .foregroundStyle(chartColor())
             .symbol(Circle())
@@ -175,7 +157,7 @@ struct TrendsView: View {
         return Chart(velocityData, id: \.date) { item in
             BarMark(
                 x: .value("Date", item.date),
-                y: .value("\(selectedMetric.rawValue) Gained", item.gained)
+                y: .value("Downloads Gained", item.gained)
             )
             .foregroundStyle(chartColor())
         }
@@ -257,19 +239,11 @@ struct TrendsView: View {
     }
     
     private func chartYValue(for snapshot: DownloadSnapshot) -> Int {
-        switch selectedMetric {
-        case .downloads: return snapshot.totalDownloads
-        case .clones: return snapshot.totalClones ?? 0
-        case .views: return snapshot.totalViews ?? 0
-        }
+        return snapshot.totalDownloads
     }
     
     private func chartColor() -> Color {
-        switch selectedMetric {
-        case .downloads: return .purple
-        case .clones: return .orange
-        case .views: return .green
-        }
+        return .purple
     }
     
     private func exportCSV() {

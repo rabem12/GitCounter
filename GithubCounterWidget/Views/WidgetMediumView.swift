@@ -4,10 +4,10 @@ import WidgetKit
 @available(macOS 14.0, *)
 struct WidgetMediumView: View {
     let stats: RepoStats
-    let metric: WidgetPrimaryMetric
+    let metric: WidgetDisplayMetric
     
-    var orderedMetrics: [WidgetPrimaryMetric] {
-        var metrics: [WidgetPrimaryMetric] = [.downloads, .clones, .views]
+    var orderedMetrics: [WidgetDisplayMetric] {
+        var metrics: [WidgetDisplayMetric] = [.downloads, .clones, .views]
         metrics.removeAll { $0 == metric }
         metrics.insert(metric, at: 0)
         return metrics
@@ -66,7 +66,7 @@ struct WidgetMediumView: View {
     }
     
     @ViewBuilder
-    func column(for m: WidgetPrimaryMetric) -> some View {
+    func column(for m: WidgetDisplayMetric) -> some View {
         let isSelected = (m == metric)
         
         VStack(alignment: .leading, spacing: 6) {
@@ -120,7 +120,7 @@ struct WidgetMediumView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    func metricTitle(for m: WidgetPrimaryMetric) -> String {
+    func metricTitle(for m: WidgetDisplayMetric) -> String {
         switch m {
         case .downloads: return "DOWNLOADS"
         case .clones: return "CLONES"
@@ -128,7 +128,7 @@ struct WidgetMediumView: View {
         }
     }
     
-    func metricIcon(for m: WidgetPrimaryMetric) -> String {
+    func metricIcon(for m: WidgetDisplayMetric) -> String {
         switch m {
         case .downloads: return "arrow.down.circle.fill"
         case .clones: return "doc.on.doc.fill"
