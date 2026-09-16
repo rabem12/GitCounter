@@ -17,11 +17,7 @@ struct WidgetMediumView: View {
         VStack(spacing: 8) {
             // Header
             HStack {
-                Image("CustomIcon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 16, height: 16)
-                    .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
+                WidgetIconView(size: 16)
                     
                 Text("\(stats.owner)/\(stats.repo)")
                     .font(.system(.subheadline, design: .rounded, weight: .semibold))

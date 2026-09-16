@@ -9,11 +9,7 @@ struct WidgetSmallView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Image("CustomIcon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 16, height: 16)
-                    .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
+                WidgetIconView(size: 16)
                 Text(stats.repo)
                     .font(.system(.caption, design: .rounded, weight: .semibold))
                     .foregroundColor(.secondary)

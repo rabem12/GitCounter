@@ -26,11 +26,7 @@ struct WidgetLargeView: View {
             // Header Row
             HStack {
                 HStack(spacing: 8) {
-                    Image("CustomIcon")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 20, height: 20)
-                        .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                    WidgetIconView(size: 20)
                         
                     Text("\(stats.owner)/\(stats.repo)")
                         .font(.headline)
@@ -60,6 +56,7 @@ struct WidgetLargeView: View {
                     column(for: orderedMetrics[2])
                 }
             }
+            .fixedSize(horizontal: false, vertical: true)
             .padding(.bottom, 4)
             
             // The Chart
@@ -76,6 +73,12 @@ struct WidgetLargeView: View {
                     HStack(spacing: 4) {
                         Image(systemName: metricIcon(for: metric))
                         Text("\(metricTitle(for: metric)) TREND")
+                        
+                        Spacer()
+                        
+                        Text("Updated \(stats.lastRefreshed, format: .dateTime.hour().minute())")
+                            .font(.system(size: 9, weight: .medium, design: .rounded))
+                            .foregroundColor(.secondary)
                     }
                     .font(.system(size: 10, weight: .bold, design: .rounded))
                     .foregroundColor(.blue)
