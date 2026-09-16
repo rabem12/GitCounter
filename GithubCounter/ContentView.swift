@@ -12,24 +12,35 @@ struct ContentView: View {
     
     var body: some View {
         NavigationSplitView {
-            List(selection: $selection) {
-                NavigationLink(value: SidebarItem.trends) {
-                    Label("Dashboard", systemImage: "chart.xyaxis.line")
+            VStack(alignment: .leading, spacing: 4) {
+                // Header
+                HStack {
+                    Image(systemName: "command.square.fill")
+                        .font(.title)
+                        .foregroundStyle(LinearGradient(colors: [.blue, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
+                    Text("Github Counter")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
                 }
+                .padding(.horizontal, 12)
+                .padding(.top, 24)
+                .padding(.bottom, 16)
                 
-                NavigationLink(value: SidebarItem.launchpad) {
-                    Label("Launchpad", systemImage: "rocket.fill")
-                }
+                // Primary
+                SidebarButton(title: "Dashboard", systemImage: "chart.xyaxis.line", iconColor: .blue, item: .trends, selection: $selection)
+                SidebarButton(title: "Launchpad", systemImage: "rocket.fill", iconColor: .orange, item: .launchpad, selection: $selection)
                 
-                NavigationLink(value: SidebarItem.setupGuide) {
-                    Label("Setup Guide", systemImage: "book.fill")
-                }
+                Spacer()
                 
-                NavigationLink(value: SidebarItem.diagnostics) {
-                    Label("Diagnostics", systemImage: "stethoscope")
-                }
+                // Secondary
+                SidebarButton(title: "Setup Guide", systemImage: "book.fill", iconColor: .green, item: .setupGuide, selection: $selection)
+                SidebarButton(title: "Diagnostics", systemImage: "stethoscope", iconColor: .red, item: .diagnostics, selection: $selection)
             }
-            .navigationTitle("Github Counter")
+            .padding(.bottom, 16)
+            .background(Material.ultraThin)
+            .navigationSplitViewColumnWidth(min: 220, ideal: 250, max: 300)
         } detail: {
             if let selection = selection {
                 switch selection {
@@ -87,6 +98,59 @@ struct ContentView: View {
             SharedPreferences.shared.savedOwner = owner
             SharedPreferences.shared.savedRepo = repo
             selection = .trends
+        }
+    }
+}
+
+struct SidebarButton: View {
+    let title: String
+    let systemImage: String
+    let iconColor: Color
+    let item: ContentView.SidebarItem
+    @Binding var selection: ContentView.SidebarItem?
+    
+    @State private var isHovered = false
+    
+    var isSelected: Bool {
+        selection == item
+    }
+    
+    var body: some View {
+        Button(action: {
+            selection = item
+        }) {
+            HStack(spacing: 12) {
+                Image(systemName: systemImage)
+                    .font(.title3)
+                    .foregroundColor(isSelected ? .white : iconColor)
+                    .frame(width: 24)
+                
+                Text(title)
+                    .font(.headline)
+                    .foregroundColor(isSelected ? .white : .primary)
+                    .lineLimit(1)
+                
+                Spacer()
+            }
+            .padding(.vertical, 10)
+            .padding(.horizontal, 12)
+            .background(
+                ZStack {
+                    if isSelected {
+                        LinearGradient(colors: [.blue, .purple], startPoint: .leading, endPoint: .trailing)
+                            .cornerRadius(10)
+                    } else if isHovered {
+                        Color.primary.opacity(0.1)
+                            .cornerRadius(10)
+                    }
+                }
+            )
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .padding(.horizontal, 12)
+        .onHover { hovering in
+            isHovered = hovering
         }
     }
 }

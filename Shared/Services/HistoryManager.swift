@@ -318,9 +318,15 @@ class HistoryManager {
         
         removeFromManifest(owner: owner, repo: repo)
         
-        // Also clean up old user defaults just in case (only safely from widget)
+        // Also clean up old user defaults
         if Bundle.main.bundleIdentifier == "io.githubcounter.GithubCounterApp.Widget" {
             UserDefaults.standard.removeObject(forKey: key)
+        } else {
+            let path = FileManager.default.homeDirectoryForCurrentUser.path + "/Library/Containers/io.githubcounter.GithubCounterApp.Widget/Data/Library/Preferences/io.githubcounter.GithubCounterApp.Widget.plist"
+            if let dict = NSMutableDictionary(contentsOfFile: path) {
+                dict.removeObject(forKey: key)
+                dict.write(toFile: path, atomically: true)
+            }
         }
     }
     

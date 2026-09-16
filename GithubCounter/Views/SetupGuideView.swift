@@ -115,6 +115,9 @@ struct SetupGuideView: View {
                 Text("• **Inputs:** Enter your Repository Owner, Repository Name, and Global PAT at the top.")
                 Text("• **Test Connection:** Click this button to apply your inputs globally. This fetches the latest data for your charts and updates the widgets.")
                 Text("• **Public Metrics:** See your Stars, Forks, and Open Issues at a glance.")
+                Text("• **Clear Data:** Use this to permanently delete the stored download history for the current repository.")
+                Text("• **Sync Cloud:** If you have the 24/7 Cloud Logger configured, click this to manually fetch the latest CSV history from your repository's main branch.")
+                Text("• **Setup Cloud Logger:** Copies the GitHub Action script to your clipboard to enable 24/7 background logging.")
                 Text("• **Charts:** View historical data over time. This history is built locally while your Mac is on, or 24/7 if you configure the Cloud Logger.")
             }
             .padding(.leading)

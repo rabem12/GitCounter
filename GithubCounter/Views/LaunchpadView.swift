@@ -86,11 +86,13 @@ struct LaunchpadCard: View {
             
             Divider()
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 8) {
                     QuickLinkButton(title: "Traffic", icon: "chart.xyaxis.line", urlString: "https://github.com/\(repoIdentifier)/graphs/traffic")
                     QuickLinkButton(title: "Issues", icon: "smallcircle.filled.circle", urlString: "https://github.com/\(repoIdentifier)/issues")
                     QuickLinkButton(title: "Pull Requests", icon: "arrow.triangle.pull", urlString: "https://github.com/\(repoIdentifier)/pulls")
+                }
+                HStack(spacing: 8) {
                     QuickLinkButton(title: "Actions", icon: "play.circle", urlString: "https://github.com/\(repoIdentifier)/actions")
                     QuickLinkButton(title: "Releases", icon: "tag", urlString: "https://github.com/\(repoIdentifier)/releases")
                     QuickLinkButton(title: "Settings", icon: "gearshape", urlString: "https://github.com/\(repoIdentifier)/settings")

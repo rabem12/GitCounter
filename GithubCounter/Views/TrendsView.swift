@@ -148,6 +148,10 @@ struct TrendsView: View {
                     Button("Delete", role: .destructive) {
                         HistoryManager.shared.clearHistory(owner: sharedData.savedOwner, repo: sharedData.savedRepo)
                         snapshots = []
+                        sharedData.savedOwner = ""
+                        sharedData.savedRepo = ""
+                        owner = ""
+                        repo = ""
                     }
                     Button("Cancel", role: .cancel) { }
                 } message: {
@@ -232,8 +236,25 @@ struct TrendsView: View {
             .symbol(Circle())
         }
         .chartXAxis {
-            AxisMarks(values: .stride(by: .day))
+            AxisMarks(values: .stride(by: .day)) { _ in
+                AxisGridLine()
+                AxisTick()
+                AxisValueLabel(format: .dateTime.month().day())
+            }
         }
+        .chartYAxis {
+            AxisMarks { value in
+                AxisGridLine()
+                AxisTick()
+                if let count = value.as(Int.self) {
+                    AxisValueLabel {
+                        Text(formatNumber(count))
+                    }
+                }
+            }
+        }
+        .chartXAxisLabel("Date")
+        .chartYAxisLabel("Total Downloads")
         .padding()
     }
     
@@ -247,8 +268,25 @@ struct TrendsView: View {
             .foregroundStyle(chartColor())
         }
         .chartXAxis {
-            AxisMarks(values: .stride(by: .day))
+            AxisMarks(values: .stride(by: .day)) { _ in
+                AxisGridLine()
+                AxisTick()
+                AxisValueLabel(format: .dateTime.month().day())
+            }
         }
+        .chartYAxis {
+            AxisMarks { value in
+                AxisGridLine()
+                AxisTick()
+                if let count = value.as(Int.self) {
+                    AxisValueLabel {
+                        Text(formatNumber(count))
+                    }
+                }
+            }
+        }
+        .chartXAxisLabel("Date")
+        .chartYAxisLabel("Downloads Gained")
         .padding()
     }
     
