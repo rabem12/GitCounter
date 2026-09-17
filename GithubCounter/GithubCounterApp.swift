@@ -45,7 +45,7 @@ struct GithubCounterApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .frame(minWidth: 800, minHeight: 500)
+                .frame(minWidth: 800, minHeight: 600)
                 .handlesExternalEvents(preferring: Set(arrayLiteral: "*"), allowing: Set(arrayLiteral: "*"))
                 .onOpenURL { url in
                     DeepLinkHandler.handle(url, source: "onOpenURL")

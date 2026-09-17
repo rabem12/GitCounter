@@ -6,41 +6,89 @@ struct ContentView: View {
     enum SidebarItem: Hashable {
         case trends
         case launchpad
+        case notes
         case setupGuide
         case diagnostics
     }
     
     var body: some View {
         NavigationSplitView {
-            VStack(alignment: .leading, spacing: 4) {
-                // Header
-                HStack {
-                    Image(systemName: "command.square.fill")
-                        .font(.title)
-                        .foregroundStyle(LinearGradient(colors: [.blue, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
-                    Text("Github Counter")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
+            GeometryReader { geo in
+                let availableHeight = geo.size.height
+                let headerHeight: CGFloat = 72
+                let bottomPadding: CGFloat = 12
+                let totalGaps: CGFloat = 4 * 8
+                let availableForTabs = availableHeight - headerHeight - bottomPadding - totalGaps
+                let slotHeight = availableForTabs / 5
+                
+                let isCompact = slotHeight < 90
+                let dynamicHeight = max(90, min(125, slotHeight))
+                
+                VStack(spacing: 0) {
+                    // Header (App Icon pinned to top below window traffic lights)
+                    Image("SidebarAppIcon")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 56, height: 56)
+                        .help("Github Counter")
+                        .padding(.top, 8)
+                        .padding(.bottom, 8)
+                    
+                    // Pinned Tab List
+                    VStack(spacing: isCompact ? 6 : 8) {
+                        SidebarButton(
+                            title: "Dashboard",
+                            systemImage: "chart.xyaxis.line",
+                            iconColor: .blue,
+                            item: .trends,
+                            selection: $selection,
+                            isCompact: isCompact,
+                            dynamicHeight: dynamicHeight
+                        )
+                        SidebarButton(
+                            title: "Launchpad",
+                            systemImage: "paperplane.fill",
+                            iconColor: .orange,
+                            item: .launchpad,
+                            selection: $selection,
+                            isCompact: isCompact,
+                            dynamicHeight: dynamicHeight
+                        )
+                        SidebarButton(
+                            title: "Notes",
+                            systemImage: "note.text",
+                            iconColor: .yellow,
+                            item: .notes,
+                            selection: $selection,
+                            isCompact: isCompact,
+                            dynamicHeight: dynamicHeight
+                        )
+                        SidebarButton(
+                            title: "Setup Guide",
+                            systemImage: "book.fill",
+                            iconColor: .green,
+                            item: .setupGuide,
+                            selection: $selection,
+                            isCompact: isCompact,
+                            dynamicHeight: dynamicHeight
+                        )
+                        SidebarButton(
+                            title: "Diagnostics",
+                            systemImage: "stethoscope",
+                            iconColor: .red,
+                            item: .diagnostics,
+                            selection: $selection,
+                            isCompact: isCompact,
+                            dynamicHeight: dynamicHeight
+                        )
+                    }
+                    
+                    Spacer(minLength: 0)
                 }
-                .padding(.horizontal, 12)
-                .padding(.top, 24)
-                .padding(.bottom, 16)
-                
-                // Primary
-                SidebarButton(title: "Dashboard", systemImage: "chart.xyaxis.line", iconColor: .blue, item: .trends, selection: $selection)
-                SidebarButton(title: "Launchpad", systemImage: "paperplane.fill", iconColor: .orange, item: .launchpad, selection: $selection)
-                
-                Spacer()
-                
-                // Secondary
-                SidebarButton(title: "Setup Guide", systemImage: "book.fill", iconColor: .green, item: .setupGuide, selection: $selection)
-                SidebarButton(title: "Diagnostics", systemImage: "stethoscope", iconColor: .red, item: .diagnostics, selection: $selection)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
-            .padding(.bottom, 16)
             .background(Material.ultraThin)
-            .navigationSplitViewColumnWidth(min: 220, ideal: 250, max: 300)
+            .navigationSplitViewColumnWidth(min: 70, ideal: 74, max: 80)
         } detail: {
             if let selection = selection {
                 switch selection {
@@ -48,6 +96,8 @@ struct ContentView: View {
                     TrendsView()
                 case .launchpad:
                     LaunchpadView()
+                case .notes:
+                    NotesView()
                 case .setupGuide:
                     SetupGuideView()
                 case .diagnostics:
@@ -83,6 +133,8 @@ struct SidebarButton: View {
     let iconColor: Color
     let item: ContentView.SidebarItem
     @Binding var selection: ContentView.SidebarItem?
+    var isCompact: Bool = false
+    var dynamicHeight: CGFloat = 106
     
     @State private var isHovered = false
     
@@ -90,42 +142,80 @@ struct SidebarButton: View {
         selection == item
     }
     
+    var gradient: LinearGradient {
+        switch item {
+        case .trends:
+            return LinearGradient(colors: [.blue, .purple], startPoint: .leading, endPoint: .trailing)
+        case .launchpad:
+            return LinearGradient(colors: [.orange, Color(red: 0.95, green: 0.3, blue: 0.2)], startPoint: .leading, endPoint: .trailing)
+        case .notes:
+            return LinearGradient(colors: [Color(red: 0.9, green: 0.65, blue: 0.0), .orange], startPoint: .leading, endPoint: .trailing)
+        case .setupGuide:
+            return LinearGradient(colors: [.green, .teal], startPoint: .leading, endPoint: .trailing)
+        case .diagnostics:
+            return LinearGradient(colors: [.red, .purple], startPoint: .leading, endPoint: .trailing)
+        }
+    }
+    
     var body: some View {
         Button(action: {
             selection = item
         }) {
-            HStack(spacing: 12) {
+            if isCompact {
+                // Compact Icon-Only Mode (Unrotated, centered exact SF Symbol)
                 Image(systemName: systemImage)
-                    .font(.title3)
+                    .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(isSelected ? .white : iconColor)
-                    .frame(width: 24)
-                
-                Text(title)
-                    .font(.headline)
-                    .foregroundColor(isSelected ? .white : .primary)
-                    .lineLimit(1)
-                
-                Spacer()
-            }
-            .padding(.vertical, 10)
-            .padding(.horizontal, 12)
-            .background(
-                ZStack {
-                    if isSelected {
-                        LinearGradient(colors: [.blue, .purple], startPoint: .leading, endPoint: .trailing)
-                            .cornerRadius(10)
-                    } else if isHovered {
-                        Color.primary.opacity(0.1)
-                            .cornerRadius(10)
-                    }
+                    .frame(width: 56, height: 44)
+                    .background(
+                        ZStack {
+                            if isSelected {
+                                gradient
+                                    .cornerRadius(10)
+                            } else if isHovered {
+                                Color.primary.opacity(0.1)
+                                    .cornerRadius(10)
+                            }
+                        }
+                    )
+                    .contentShape(Rectangle())
+            } else {
+                // Full Mode: Rotated Text + exact SF Symbol
+                HStack(spacing: 7) {
+                    Image(systemName: systemImage)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(isSelected ? .white : iconColor)
+                    
+                    Text(title)
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(isSelected ? .white : .primary)
+                        .lineLimit(1)
                 }
-            )
-            .contentShape(Rectangle())
+                .padding(.horizontal, 10)
+                .frame(height: 56)
+                .background(
+                    ZStack {
+                        if isSelected {
+                            gradient
+                                .cornerRadius(10)
+                        } else if isHovered {
+                            Color.primary.opacity(0.1)
+                                .cornerRadius(10)
+                        }
+                    }
+                )
+                .fixedSize()
+                .rotationEffect(.degrees(-90))
+                .frame(width: 56, height: dynamicHeight)
+                .contentShape(Rectangle())
+            }
         }
         .buttonStyle(.plain)
-        .padding(.horizontal, 12)
+        .help(title)
         .onHover { hovering in
             isHovered = hovering
         }
     }
 }
+
+

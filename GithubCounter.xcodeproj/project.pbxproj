@@ -38,6 +38,8 @@
 		8BB730CF1E8B7892ACD1A804 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B474BC1BB6E0A6526BBD40E6 /* AppIntents.framework */; };
 		910E950D469366A92D31A673 /* LaunchpadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBB95867F0B851BFC5E3FDF /* LaunchpadManager.swift */; };
 		9FC04A1B61398404D708C8BC /* LaunchpadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED0A25EC8CB68DBC564E783 /* LaunchpadView.swift */; };
+		B10000000000000000000001 /* NotesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000001 /* NotesManager.swift */; };
+		B20000000000000000000002 /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* NotesView.swift */; };
 		A8AB199FA8F3576E886E528B /* GithubCounterWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C3B2D6689586F4CFBEA8F9C0 /* GithubCounterWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AEF4D1427CFBC2BF83A60729 /* SelectRepositoryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6817C36EAB420909200749 /* SelectRepositoryIntent.swift */; };
 		BC8A92AF22F0AA31C3B7BD5B /* GitHubAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E3210D1A6653BF05F03387 /* GitHubAPIService.swift */; };
@@ -90,6 +92,8 @@
 		2E16A902C8B314B4E530184C /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		2E5280E9222F7BB765796EF7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3ED0A25EC8CB68DBC564E783 /* LaunchpadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchpadView.swift; sourceTree = "<group>"; };
+		A10000000000000000000001 /* NotesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesManager.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		400A0A48D3C4554375F486D2 /* DiagnosticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticsView.swift; sourceTree = "<group>"; };
 		554039BFD13A2AFCC9DD99CC /* WidgetIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetIconView.swift; sourceTree = "<group>"; };
 		7077EF0204D741C61D9B131A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -151,6 +155,7 @@
 			children = (
 				400A0A48D3C4554375F486D2 /* DiagnosticsView.swift */,
 				3ED0A25EC8CB68DBC564E783 /* LaunchpadView.swift */,
+				A20000000000000000000002 /* NotesView.swift */,
 				C5C5006C870C95550993D4DA /* SetupGuideView.swift */,
 				FBEECC9DBADA8524B71C41DE /* TrendsView.swift */,
 			);
@@ -250,6 +255,7 @@
 				D5E3210D1A6653BF05F03387 /* GitHubAPIService.swift */,
 				A5815DABE2D1B198E78B4501 /* HistoryManager.swift */,
 				2BBB95867F0B851BFC5E3FDF /* LaunchpadManager.swift */,
+				A10000000000000000000001 /* NotesManager.swift */,
 				77AAB4E0AA1FAC1168848764 /* SecretsManager.swift */,
 				F69F74345F80CC2A6C0DC299 /* SharedDataManager.swift */,
 			);
@@ -372,6 +378,8 @@
 				4D574FB883822F6FE4F905D4 /* HistoryManager.swift in Sources */,
 				910E950D469366A92D31A673 /* LaunchpadManager.swift in Sources */,
 				9FC04A1B61398404D708C8BC /* LaunchpadView.swift in Sources */,
+				B10000000000000000000001 /* NotesManager.swift in Sources */,
+				B20000000000000000000002 /* NotesView.swift in Sources */,
 				3DE99509FF79A74B33BFC331 /* OpenRepoIntent.swift in Sources */,
 				ED9136B8869E5847FD896C66 /* RefreshWidgetIntent.swift in Sources */,
 				5C3B44E8F10CCF69C86F31AD /* RepoStats.swift in Sources */,
