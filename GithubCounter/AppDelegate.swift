@@ -6,6 +6,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // via a physical file handoff system directly in ContentView.
 }
 
-extension Notification.Name {
-    static let didReceiveDeepLink = Notification.Name("didReceiveDeepLink")
-}

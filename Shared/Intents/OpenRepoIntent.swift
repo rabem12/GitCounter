@@ -19,30 +19,32 @@ struct OpenRepoIntent: AppIntent {
     }
     
     func perform() async throws -> some IntentResult {
-        // 1. Determine flag file path (Widget's Documents directory)
-        // Since we are running INSIDE the widget sandbox, we can just use FileManager.default.urls
-        guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return .result()
+        let selectedOwner = self.owner
+        let selectedRepo = self.repo
+        
+        await MainActor.run {
+            #if os(macOS)
+            // macOS Widget extensions run in a separate process. Modifying SharedPreferences here
+            // won't reflect in the main app. We must pass the data via the deep link URL.
+            var components = URLComponents()
+            components.scheme = "githubcounter"
+            components.host = "launch"
+            components.queryItems = [
+                URLQueryItem(name: "owner", value: selectedOwner),
+                URLQueryItem(name: "repo", value: selectedRepo)
+            ]
+            
+            if let url = components.url {
+                NSWorkspace.shared.open(url)
+            }
+            #endif
         }
-        let flagURL = documentsURL.appendingPathComponent("clicked_flag.json")
-        
-        // 2. Aggressively delete any existing flag to avoid stale data (Flaw 3)
-        try? FileManager.default.removeItem(at: flagURL)
-        
-        // 3. Write new flag atomically (Flaw 2)
-        // Add a timestamp to prevent the app from reading it if the launch was delayed for minutes
-        let payload = "{\"owner\":\"\(owner)\", \"repo\":\"\(repo)\", \"timestamp\": \(Date().timeIntervalSince1970)}"
-        let data = payload.data(using: .utf8)
-        
-        // We write directly to the Documents directory of the widget sandbox.
-        // Because of .atomic, this is un-interruptible and guaranteed to be physically on disk before moving on.
-        try? data?.write(to: flagURL, options: .atomic)
-        
-        // 4. Force launch the main app
-        // We use openAppWhenRun = true instead of NSWorkspace (which is forbidden in widgets).
-        // The system will bring the app to the foreground, which triggers onAppear / onReceive
-        // where the app will catch the flag file we just wrote.
         
         return .result()
     }
 }
+
+extension Notification.Name {
+    static let didReceiveDeepLink = Notification.Name("didReceiveDeepLink")
+}
+

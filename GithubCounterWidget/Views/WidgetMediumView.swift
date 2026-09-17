@@ -14,8 +14,7 @@ struct WidgetMediumView: View {
     }
     
     var body: some View {
-        Button(intent: OpenRepoIntent(owner: stats.owner, repo: stats.repo)) {
-            VStack(spacing: 8) {
+        VStack(spacing: 8) {
             // Header
             HStack {
                 WidgetIconView(size: 16)
@@ -59,8 +58,7 @@ struct WidgetMediumView: View {
         } // Close VStack
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        } // Close Button
-        .buttonStyle(.plain)
+        .widgetURL(URL(string: "githubcounter://launch?owner=\(stats.owner)&repo=\(stats.repo)"))
     }
     
     @ViewBuilder

@@ -24,7 +24,7 @@ struct GitHubAsset: Codable {
     }
 }
 
-struct RepoStats: Codable {
+struct RepoStats: Codable, Equatable {
     let owner: String
     let repo: String
     let totalDownloads: Int

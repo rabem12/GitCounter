@@ -44,6 +44,7 @@ struct TrendsView: View {
             }
         }
         .padding()
+        .animation(.easeInOut, value: currentStats)
         .onAppear {
             if owner.isEmpty {
                 owner = sharedData.savedOwner
