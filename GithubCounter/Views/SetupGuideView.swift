@@ -130,12 +130,20 @@ struct SetupGuideView: View {
                 .font(.title2)
                 .bold()
             
-            Text("The Launchpad provides quick, deep links to important sections of your favorite repositories.")
+            Text("The Launchpad is a quick-access dashboard for all your favorite repositories.")
+            
+            Image("launchpad_guide")
+                .resizable()
+                .scaledToFit()
+                .frame(maxHeight: 250)
+                .cornerRadius(12)
+                .shadow(radius: 4)
+                .padding(.vertical, 8)
             
             VStack(alignment: .leading, spacing: 8) {
-                Text("• **Adding Repos:** Enter a repository owner and name, then click 'Add Repo' to save it to your Launchpad.")
-                Text("• **Quick Links:** Each saved repository has shortcut buttons that open directly in your web browser (e.g., Traffic, Issues, Pull Requests, Actions).")
-                Text("• **Management:** You can easily delete repositories from your Launchpad using the trash icon.")
+                Text("• **Adding Repos:** Type the Owner (e.g., 'apple') and Repository name (e.g., 'swift') in the text fields, then click **Add to Launchpad**.")
+                Text("• **Quick Links:** Each saved repository displays a set of shortcut buttons. Clicking these will instantly open that repository's specific page (Traffic, Issues, Pull Requests, etc.) in your default web browser.")
+                Text("• **Management:** To remove a repository from your Launchpad, simply click the red trash can icon next to its name.")
             }
             .padding(.leading)
         }
@@ -147,12 +155,12 @@ struct SetupGuideView: View {
                 .font(.title2)
                 .bold()
             
-            Text("The Diagnostics page helps you monitor the app's health and background tasks.")
+            Text("The Diagnostics page is an advanced tool for troubleshooting app issues.")
             
             VStack(alignment: .leading, spacing: 8) {
-                Text("• **Status Indicators:** Check your GitHub API rate limit status and the background refresh status.")
-                Text("• **Logs:** View a timeline of recent widget refreshes and background fetches.")
-                Text("• **Cache Management:** Clear the app's cache or reset core data if you encounter issues.")
+                Text("• **System Paths:** View the directories where your app and widget are storing data on your Mac.")
+                Text("• **Core Data Inspection:** View the raw JSON data being stored for your repositories (such as the cached GitHub responses).")
+                Text("• **Cache Management:** Individually delete cached history or data files if they become corrupted or if you want to perform a hard reset.")
             }
             .padding(.leading)
         }

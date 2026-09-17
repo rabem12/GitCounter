@@ -8,13 +8,6 @@ struct GithubCounterApp: App {
         WindowGroup {
             ContentView()
                 .frame(minWidth: 800, minHeight: 500)
-                .onOpenURL { url in
-                    if AppDelegate.isContentViewReady {
-                        AppDelegate.processDeepLink(url)
-                    } else {
-                        AppDelegate.pendingWidgetURL = url
-                    }
-                }
         }
     }
 }

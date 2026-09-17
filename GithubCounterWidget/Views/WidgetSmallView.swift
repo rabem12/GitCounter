@@ -7,7 +7,8 @@ struct WidgetSmallView: View {
     let metric: WidgetDisplayMetric
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        Button(intent: OpenRepoIntent(owner: stats.owner, repo: stats.repo)) {
+            VStack(alignment: .leading, spacing: 6) {
             HStack {
                 WidgetIconView(size: 16)
                 Text("\(stats.owner)/\(stats.repo)")
@@ -124,6 +125,7 @@ struct WidgetSmallView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-        .widgetURL(URL(string: "githubcounter://trends?owner=\(stats.owner)&repo=\(stats.repo)"))
+        } // Close Button
+        .buttonStyle(.plain)
     }
 }

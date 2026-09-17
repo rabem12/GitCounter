@@ -70,24 +70,42 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .didReceiveDeepLink)) { notification in
-            if let url = notification.object as? URL {
-                handleIncomingURL(url)
-            }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            checkWidgetFlagFile()
         }
         .onAppear {
-            AppDelegate.isContentViewReady = true
-            if let pending = AppDelegate.pendingWidgetURL {
-                AppDelegate.pendingWidgetURL = nil
-                AppDelegate.processDeepLink(pending)
-            }
+            checkWidgetFlagFile()
         }
     }
     
-    private func handleIncomingURL(_ url: URL) {
-        // Only need to switch the tab, as AppDelegate already saved the owner/repo to SharedPreferences
-        guard url.scheme == "githubcounter", url.host == "trends" else { return }
-        selection = .trends
+    private func checkWidgetFlagFile() {
+        let flagURL = URL(fileURLWithPath: NSHomeDirectory())
+            .appendingPathComponent("Library/Containers/io.githubcounter.GithubCounterApp.Widget/Data/Documents/clicked_flag.json")
+        
+        guard FileManager.default.fileExists(atPath: flagURL.path) else { return }
+        
+        do {
+            let data = try Data(contentsOf: flagURL)
+            // Immediately delete the flag so it isn't read again
+            try FileManager.default.removeItem(at: flagURL)
+            
+            if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let owner = json["owner"] as? String,
+               let repo = json["repo"] as? String,
+               let timestamp = json["timestamp"] as? TimeInterval {
+                
+                // Only process the flag if it's less than 60 seconds old
+                // to prevent stale clicks from triggering on a random launch
+                if Date().timeIntervalSince1970 - timestamp < 60 {
+                    DiagnosticsManager.shared.log("Flag read successfully for \(owner)/\(repo)")
+                    SharedPreferences.shared.savedOwner = owner
+                    SharedPreferences.shared.savedRepo = repo
+                    selection = .trends
+                }
+            }
+        } catch {
+            DiagnosticsManager.shared.log("Error reading/deleting widget flag: \(error)")
+        }
     }
 }
 

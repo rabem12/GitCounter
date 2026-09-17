@@ -14,7 +14,8 @@ struct WidgetMediumView: View {
     }
     
     var body: some View {
-        VStack(spacing: 8) {
+        Button(intent: OpenRepoIntent(owner: stats.owner, repo: stats.repo)) {
+            VStack(spacing: 8) {
             // Header
             HStack {
                 WidgetIconView(size: 16)
@@ -55,10 +56,11 @@ struct WidgetMediumView: View {
                     column(for: orderedMetrics[2])
                 }
             }
-        }
+        } // Close VStack
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .widgetURL(URL(string: "githubcounter://trends?owner=\(stats.owner)&repo=\(stats.repo)"))
+        } // Close Button
+        .buttonStyle(.plain)
     }
     
     @ViewBuilder

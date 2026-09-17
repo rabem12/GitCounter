@@ -18,10 +18,12 @@
 		3201CB489BAEB6AA8FB291D1 /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5815DABE2D1B198E78B4501 /* HistoryManager.swift */; };
 		3210E5FA5ACE2E64476654B6 /* TrendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEECC9DBADA8524B71C41DE /* TrendsView.swift */; };
 		3B07FAE28712FBCDD758D382 /* WidgetIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554039BFD13A2AFCC9DD99CC /* WidgetIconView.swift */; };
+		3DE99509FF79A74B33BFC331 /* OpenRepoIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E9AE352BFB677B7E6EDFF7 /* OpenRepoIntent.swift */; };
 		3FB69AE4F9CA4BF3F1A5F20C /* SelectRepositoryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6817C36EAB420909200749 /* SelectRepositoryIntent.swift */; };
 		41F15693B238378AE5621F28 /* DownloadSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19661382614750E73B7AEA69 /* DownloadSnapshot.swift */; };
 		478555FAF1C59AA6AD8772E2 /* SharedDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69F74345F80CC2A6C0DC299 /* SharedDataManager.swift */; };
 		4D574FB883822F6FE4F905D4 /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5815DABE2D1B198E78B4501 /* HistoryManager.swift */; };
+		4D9003F9F63979B441314F07 /* OpenRepoIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E9AE352BFB677B7E6EDFF7 /* OpenRepoIntent.swift */; };
 		539BFE4654BF2EF6E65ECF5D /* GithubCounterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09FBFD4A34BBA947ACCDD46 /* GithubCounterApp.swift */; };
 		569264900146B99475CBFF7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A4CDA3409DDEBAD18C8307 /* AppDelegate.swift */; };
 		5895C3302D6B8727C3D3ADB9 /* LaunchpadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBB95867F0B851BFC5E3FDF /* LaunchpadManager.swift */; };
@@ -77,6 +79,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		05E9AE352BFB677B7E6EDFF7 /* OpenRepoIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenRepoIntent.swift; sourceTree = "<group>"; };
 		0E4680683A164C8934370DE4 /* DiagnosticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticsManager.swift; sourceTree = "<group>"; };
 		19661382614750E73B7AEA69 /* DownloadSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadSnapshot.swift; sourceTree = "<group>"; };
 		19A4CDA3409DDEBAD18C8307 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -189,6 +192,14 @@
 			path = GithubCounter;
 			sourceTree = "<group>";
 		};
+		7D3CFD388FDC6D3007588478 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				05E9AE352BFB677B7E6EDFF7 /* OpenRepoIntent.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
 		803C550E5457168E62E8D4BB /* Diagnostics */ = {
 			isa = PBXGroup;
 			children = (
@@ -225,6 +236,7 @@
 				EC74FF4DB2D18ED6A32B5C47 /* RefreshWidgetIntent.swift */,
 				1F6817C36EAB420909200749 /* SelectRepositoryIntent.swift */,
 				803C550E5457168E62E8D4BB /* Diagnostics */,
+				7D3CFD388FDC6D3007588478 /* Intents */,
 				07D74F318652255A09AED720 /* Models */,
 				FBCB55824BC174F40B0C4D7D /* Services */,
 			);
@@ -360,6 +372,7 @@
 				4D574FB883822F6FE4F905D4 /* HistoryManager.swift in Sources */,
 				910E950D469366A92D31A673 /* LaunchpadManager.swift in Sources */,
 				9FC04A1B61398404D708C8BC /* LaunchpadView.swift in Sources */,
+				3DE99509FF79A74B33BFC331 /* OpenRepoIntent.swift in Sources */,
 				ED9136B8869E5847FD896C66 /* RefreshWidgetIntent.swift in Sources */,
 				5C3B44E8F10CCF69C86F31AD /* RepoStats.swift in Sources */,
 				F5A60AA8101DBA1BD2DAFDA6 /* SecretsManager.swift in Sources */,
@@ -382,6 +395,7 @@
 				26BF9929E646C92C608E7EB1 /* GithubCounterWidgetBundle.swift in Sources */,
 				3201CB489BAEB6AA8FB291D1 /* HistoryManager.swift in Sources */,
 				5895C3302D6B8727C3D3ADB9 /* LaunchpadManager.swift in Sources */,
+				4D9003F9F63979B441314F07 /* OpenRepoIntent.swift in Sources */,
 				29FD95951DC78B1259EBC90E /* RefreshWidgetIntent.swift in Sources */,
 				316AFAFE9F4957498A626FF2 /* RepoStats.swift in Sources */,
 				BCE6A2A14E8CB1D21D1CC16D /* SecretsManager.swift in Sources */,
