@@ -7,14 +7,25 @@ struct TrendsView: View {
     
     @State private var snapshots: [DownloadSnapshot] = []
     @State private var showCopiedMessage = false
+    enum ConnectionTestStatus: Equatable {
+        case idle
+        case testing
+        case success
+        case failure(reason: String)
+    }
+    
     @State private var showClearConfirmation = false
+    @State private var showClearPATConfirmation = false
     
     @State private var owner: String = ""
     @State private var repo: String = ""
     @State private var pat: String = ""
     @State private var isFetching: Bool = false
+    @State private var testStatus: ConnectionTestStatus = .idle
+    @State private var testStatusResetTask: Task<Void, Never>? = nil
     @State private var currentStats: RepoStats?
     @State private var fetchTask: Task<Void, Never>? = nil
+    @State private var selectedMetric: WidgetDisplayMetric = .downloads
     
     var body: some View {
         VStack(spacing: 20) {
@@ -29,6 +40,14 @@ struct TrendsView: View {
             if snapshots.isEmpty {
                 emptyStateView
             } else {
+                Picker("Display Metric", selection: $selectedMetric) {
+                    Text("Downloads").tag(WidgetDisplayMetric.downloads)
+                    Text("Clones").tag(WidgetDisplayMetric.clones)
+                    Text("Views").tag(WidgetDisplayMetric.views)
+                }
+                .pickerStyle(.segmented)
+                .frame(maxWidth: 340)
+                
                 metricsGrid
                 
                 TabView {
@@ -41,7 +60,7 @@ struct TrendsView: View {
                     historyTable
                         .tabItem { Text("History Log") }
                 }
-                .padding(.top, 10)
+                .padding(.top, 6)
             }
         }
         .padding()
@@ -69,6 +88,9 @@ struct TrendsView: View {
                 fetchStats()
             }
         }
+        .onChange(of: owner) { _, _ in resetTestStatus() }
+        .onChange(of: repo) { _, _ in resetTestStatus() }
+        .onChange(of: pat) { _, _ in resetTestStatus() }
     }
     
     private var inputSection: some View {
@@ -85,27 +107,52 @@ struct TrendsView: View {
             }
             
             HStack(spacing: 16) {
-                Button(action: fetchStats) {
-                    if isFetching {
-                        ProgressView()
-                            .scaleEffect(0.5)
-                            .frame(width: 100)
-                    } else {
-                        Text("Test Connection")
-                            .frame(width: 100)
+                Button(action: { fetchStats(isManualTest: true) }) {
+                    HStack(spacing: 6) {
+                        switch testStatus {
+                        case .idle:
+                            Text("Test Connection")
+                        case .testing:
+                            ProgressView()
+                                .scaleEffect(0.5)
+                                .frame(width: 14, height: 14)
+                            Text("Testing...")
+                        case .success:
+                            Image(systemName: "checkmark.circle.fill")
+                            Text("Connected")
+                        case .failure:
+                            Image(systemName: "xmark.circle.fill")
+                            Text("Failed")
+                        }
                     }
+                    .foregroundColor(.white)
+                    .fontWeight(.semibold)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 7)
+                    .background(testButtonBackgroundColor)
+                    .cornerRadius(8)
                 }
-                .buttonStyle(.borderedProminent)
-                .disabled(owner.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || repo.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isFetching)
+                .buttonStyle(.plain)
+                .help(testButtonTooltip)
+                .disabled(owner.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || repo.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || testStatus == .testing)
                 
                 if !pat.isEmpty {
                     Button("Clear PAT") {
-                        pat = ""
-                        SecretsManager.shared.clearPAT()
-                        WidgetCenter.shared.reloadAllTimelines()
+                        showClearPATConfirmation = true
                     }
                     .buttonStyle(.bordered)
                     .tint(.red)
+                    .alert("Clear Personal Access Token?", isPresented: $showClearPATConfirmation) {
+                        Button("Clear PAT", role: .destructive) {
+                            pat = ""
+                            SecretsManager.shared.clearPAT()
+                            WidgetCenter.shared.reloadAllTimelines()
+                            resetTestStatus()
+                        }
+                        Button("Cancel", role: .cancel) { }
+                    } message: {
+                        Text("Are you sure you want to remove your saved Personal Access Token? Any desktop widgets or traffic metrics requiring authentication will stop updating.")
+                    }
                 }
             }
         }
@@ -201,22 +248,51 @@ struct TrendsView: View {
         }
     }
     
+    private var selectedMetricTitle: String {
+        switch selectedMetric {
+        case .downloads: return "Downloads"
+        case .clones: return "Clones"
+        case .views: return "Views"
+        }
+    }
+    
     private var metricsGrid: some View {
         HStack(spacing: 16) {
-            let total = snapshots.last?.totalDownloads ?? 0
-            let clones = snapshots.last?.totalClones ?? 0
-            let views = snapshots.last?.totalViews ?? 0
-            let deltas = HistoryManager.shared.calculateDeltas(owner: sharedData.savedOwner, repo: sharedData.savedRepo, currentDownloads: total, currentClones: clones, currentViews: views)
+            let total = snapshots.last.map { chartYValue(for: $0) } ?? 0
+            let last = snapshots.last
+            let deltas = HistoryManager.shared.calculateDeltas(
+                owner: sharedData.savedOwner,
+                repo: sharedData.savedRepo,
+                currentDownloads: last?.totalDownloads ?? 0,
+                currentClones: last?.totalClones ?? 0,
+                currentViews: last?.totalViews ?? 0
+            )
             
-            MetricCard(title: "Total All-Time", value: formatNumber(total), color: .purple)
+            let deltaToday: Int? = {
+                switch selectedMetric {
+                case .downloads: return deltas.downloadsToday
+                case .clones: return deltas.clonesToday
+                case .views: return deltas.viewsToday
+                }
+            }()
             
-            if let today = deltas.downloadsToday {
+            let deltaWeek: Int? = {
+                switch selectedMetric {
+                case .downloads: return deltas.downloadsThisWeek
+                case .clones: return deltas.clonesThisWeek
+                case .views: return deltas.viewsThisWeek
+                }
+            }()
+            
+            MetricCard(title: "Total \(selectedMetricTitle)", value: formatNumber(total), color: chartColor())
+            
+            if let today = deltaToday {
                 MetricCard(title: "Gained Today", value: "+\(formatNumber(today))", color: .green)
             } else {
                 MetricCard(title: "Gained Today", value: "-", color: .secondary)
             }
             
-            if let week = deltas.downloadsThisWeek {
+            if let week = deltaWeek {
                 MetricCard(title: "Gained This Week", value: "+\(formatNumber(week))", color: .blue)
             } else {
                 MetricCard(title: "Gained This Week", value: "-", color: .secondary)
@@ -232,13 +308,13 @@ struct TrendsView: View {
             let yValue = chartYValue(for: snapshot)
             AreaMark(
                 x: .value("Date", snapshot.date),
-                y: .value("Downloads", yValue)
+                y: .value(selectedMetricTitle, yValue)
             )
             .foregroundStyle(LinearGradient(gradient: Gradient(colors: [chartColor().opacity(0.5), chartColor().opacity(0.1)]), startPoint: .top, endPoint: .bottom))
             
             LineMark(
                 x: .value("Date", snapshot.date),
-                y: .value("Downloads", yValue)
+                y: .value(selectedMetricTitle, yValue)
             )
             .foregroundStyle(chartColor())
             .symbol(Circle())
@@ -262,7 +338,7 @@ struct TrendsView: View {
             }
         }
         .chartXAxisLabel("Date")
-        .chartYAxisLabel("Total Downloads")
+        .chartYAxisLabel("Total \(selectedMetricTitle)")
         .padding()
     }
     
@@ -271,7 +347,7 @@ struct TrendsView: View {
         return Chart(velocityData, id: \.date) { item in
             BarMark(
                 x: .value("Date", item.date),
-                y: .value("Downloads Gained", item.gained)
+                y: .value("\(selectedMetricTitle) Gained", item.gained)
             )
             .foregroundStyle(chartColor())
         }
@@ -294,7 +370,7 @@ struct TrendsView: View {
             }
         }
         .chartXAxisLabel("Date")
-        .chartYAxisLabel("Downloads Gained")
+        .chartYAxisLabel("\(selectedMetricTitle) Gained")
         .padding()
     }
     
@@ -307,8 +383,14 @@ struct TrendsView: View {
                 Text(snapshot.date, style: .time)
             }
             TableColumn("Version", value: \.version)
-            TableColumn("Total") { snapshot in
+            TableColumn("Downloads") { snapshot in
                 Text("\(snapshot.totalDownloads)")
+            }
+            TableColumn("Clones") { snapshot in
+                Text(snapshot.totalClones.map { "\($0)" } ?? "-")
+            }
+            TableColumn("Views") { snapshot in
+                Text(snapshot.totalViews.map { "\($0)" } ?? "-")
             }
         }
     }
@@ -345,8 +427,8 @@ struct TrendsView: View {
     private func calculateDailyAverage() -> Int {
         guard let first = snapshots.first, let last = snapshots.last, snapshots.count > 1 else { return 0 }
         let days = max(1, Calendar.current.dateComponents([.day], from: first.date, to: last.date).day ?? 1)
-        let gained = last.totalDownloads - first.totalDownloads
-        return gained / days
+        let gained = chartYValue(for: last) - chartYValue(for: first)
+        return max(0, gained / days)
     }
     
     private struct VelocityItem {
@@ -370,11 +452,25 @@ struct TrendsView: View {
     }
     
     private func chartYValue(for snapshot: DownloadSnapshot) -> Int {
-        return snapshot.totalDownloads
+        switch selectedMetric {
+        case .downloads:
+            return snapshot.totalDownloads
+        case .clones:
+            return snapshot.totalClones ?? 0
+        case .views:
+            return snapshot.totalViews ?? 0
+        }
     }
     
     private func chartColor() -> Color {
-        return .purple
+        switch selectedMetric {
+        case .downloads:
+            return .purple
+        case .clones:
+            return .blue
+        case .views:
+            return .green
+        }
     }
     
     private func exportCSV() {
@@ -403,7 +499,40 @@ struct TrendsView: View {
         }
     }
     
-    private func fetchStats() {
+    private var testButtonBackgroundColor: Color {
+        switch testStatus {
+        case .idle, .testing:
+            return .blue
+        case .success:
+            return .green
+        case .failure:
+            return .red
+        }
+    }
+    
+    private var testButtonTooltip: String {
+        switch testStatus {
+        case .idle:
+            return "Test connection to repository"
+        case .testing:
+            return "Connecting to GitHub..."
+        case .success:
+            return "Connection successful! Data refreshed."
+        case .failure(let reason):
+            return "Connection failed: \(reason)"
+        }
+    }
+    
+    private func resetTestStatus() {
+        if testStatus != .idle && testStatus != .testing {
+            testStatusResetTask?.cancel()
+            withAnimation {
+                testStatus = .idle
+            }
+        }
+    }
+    
+    private func fetchStats(isManualTest: Bool = false) {
         let cleanOwner = owner.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanRepo = repo.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanPat = pat.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -412,8 +541,14 @@ struct TrendsView: View {
         
         // Cancel any active/in-flight fetch immediately to avoid race conditions
         fetchTask?.cancel()
+        testStatusResetTask?.cancel()
         
         isFetching = true
+        if isManualTest {
+            withAnimation {
+                testStatus = .testing
+            }
+        }
         currentStats = nil
         
         fetchTask = Task {
@@ -428,6 +563,21 @@ struct TrendsView: View {
                     
                     self.currentStats = fetchedStats
                     self.isFetching = false
+                    if isManualTest {
+                        withAnimation {
+                            self.testStatus = .success
+                        }
+                        // Auto-reset button to idle after 3 seconds
+                        self.testStatusResetTask = Task {
+                            try? await Task.sleep(nanoseconds: 3_000_000_000)
+                            guard !Task.isCancelled else { return }
+                            await MainActor.run {
+                                withAnimation {
+                                    self.testStatus = .idle
+                                }
+                            }
+                        }
+                    }
                     sharedData.savedOwner = cleanOwner
                     sharedData.savedRepo = cleanRepo
                     SecretsManager.shared.savePAT(cleanPat)
@@ -438,6 +588,21 @@ struct TrendsView: View {
                 await MainActor.run {
                     guard !Task.isCancelled else { return }
                     self.isFetching = false
+                    if isManualTest {
+                        withAnimation {
+                            self.testStatus = .failure(reason: error.localizedDescription)
+                        }
+                        // Auto-reset button to idle after 5 seconds
+                        self.testStatusResetTask = Task {
+                            try? await Task.sleep(nanoseconds: 5_000_000_000)
+                            guard !Task.isCancelled else { return }
+                            await MainActor.run {
+                                withAnimation {
+                                    self.testStatus = .idle
+                                }
+                            }
+                        }
+                    }
                     print("Error fetching stats: \(error)")
                 }
             }
