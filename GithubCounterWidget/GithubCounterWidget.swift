@@ -161,6 +161,7 @@ struct GithubCounterWidgetEntryView : View {
         .containerBackground(for: .widget) {
             Rectangle().fill(.ultraThinMaterial)
         }
+        .widgetURL(entry.stats?.deepLinkURL)
     }
 }
 

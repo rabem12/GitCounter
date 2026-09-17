@@ -124,6 +124,6 @@ struct WidgetSmallView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-        .widgetURL(URL(string: "githubcounter://launch?owner=\(stats.owner)&repo=\(stats.repo)"))
+        .widgetURL(stats.deepLinkURL)
     }
 }

@@ -2,7 +2,10 @@ import Cocoa
 import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    // AppDelegate is now significantly simplified as deep linking is handled
-    // via a physical file handoff system directly in ContentView.
+    func application(_ application: NSApplication, open urls: [URL]) {
+        for url in urls {
+            DeepLinkHandler.handle(url, source: "AppDelegate")
+        }
+    }
 }
 

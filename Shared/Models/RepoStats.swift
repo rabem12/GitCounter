@@ -136,3 +136,16 @@ struct RepoStats: Codable, Equatable {
         }
     }
 }
+
+extension RepoStats {
+    var deepLinkURL: URL {
+        var components = URLComponents()
+        components.scheme = "githubcounter"
+        components.host = "launch"
+        components.queryItems = [
+            URLQueryItem(name: "owner", value: owner),
+            URLQueryItem(name: "repo", value: repo)
+        ]
+        return components.url ?? URL(string: "githubcounter://launch")!
+    }
+}

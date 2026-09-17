@@ -71,6 +71,7 @@ struct ContentView: View {
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .didReceiveDeepLink)) { _ in
+            DiagnosticsManager.shared.logRoutingEvent("ContentView received .didReceiveDeepLink notification. Setting selection to .trends.")
             selection = .trends
         }
     }

@@ -35,6 +35,23 @@ struct DiagnosticsView: View {
                         .textSelection(.enabled)
                 }
                 
+                Section(header: Text("Deep Link Routing Logs").font(.headline)) {
+                    if manager.routingLogs.isEmpty {
+                        Text("No routing logs yet. (If this remains empty after clicking a widget, the OS is failing to deliver the URL to the app).")
+                            .font(.system(.caption, design: .monospaced))
+                            .foregroundColor(.secondary)
+                    } else {
+                        VStack(alignment: .leading, spacing: 4) {
+                            ForEach(manager.routingLogs, id: \.self) { log in
+                                Text(log)
+                                    .font(.system(.caption, design: .monospaced))
+                                    .textSelection(.enabled)
+                                Divider()
+                            }
+                        }
+                    }
+                }
+                
                 if !manager.coreFiles.isEmpty {
                     Section(header: Text("Core App Data").font(.headline)) {
                         ForEach(manager.coreFiles, id: \.self) { file in

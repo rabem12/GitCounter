@@ -14,6 +14,7 @@ struct TrendsView: View {
     @State private var pat: String = ""
     @State private var isFetching: Bool = false
     @State private var currentStats: RepoStats?
+    @State private var fetchTask: Task<Void, Never>? = nil
     
     var body: some View {
         VStack(spacing: 20) {
@@ -60,15 +61,13 @@ struct TrendsView: View {
                 fetchStats()
             }
         }
-        .onChange(of: sharedData.savedOwner) { newValue in
-            owner = newValue
+        .onReceive(NotificationCenter.default.publisher(for: .didReceiveDeepLink)) { _ in
+            owner = sharedData.savedOwner
+            repo = sharedData.savedRepo
             loadSnapshots()
-            if !owner.isEmpty && !repo.isEmpty { fetchStats() }
-        }
-        .onChange(of: sharedData.savedRepo) { newValue in
-            repo = newValue
-            loadSnapshots()
-            if !owner.isEmpty && !repo.isEmpty { fetchStats() }
+            if !owner.isEmpty && !repo.isEmpty {
+                fetchStats()
+            }
         }
     }
     
@@ -409,13 +408,24 @@ struct TrendsView: View {
         let cleanRepo = repo.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanPat = pat.trimmingCharacters(in: .whitespacesAndNewlines)
         
+        guard !cleanOwner.isEmpty && !cleanRepo.isEmpty else { return }
+        
+        // Cancel any active/in-flight fetch immediately to avoid race conditions
+        fetchTask?.cancel()
+        
         isFetching = true
         currentStats = nil
         
-        Task {
+        fetchTask = Task {
             do {
                 let fetchedStats = try await GitHubAPIService.shared.fetchStats(owner: cleanOwner, repo: cleanRepo, pat: cleanPat)
+                
                 await MainActor.run {
+                    // Discard results if task was cancelled or if user/deep link switched repos
+                    guard !Task.isCancelled else { return }
+                    guard self.owner.trimmingCharacters(in: .whitespacesAndNewlines) == cleanOwner &&
+                          self.repo.trimmingCharacters(in: .whitespacesAndNewlines) == cleanRepo else { return }
+                    
                     self.currentStats = fetchedStats
                     self.isFetching = false
                     sharedData.savedOwner = cleanOwner
@@ -426,6 +436,7 @@ struct TrendsView: View {
                 }
             } catch {
                 await MainActor.run {
+                    guard !Task.isCancelled else { return }
                     self.isFetching = false
                     print("Error fetching stats: \(error)")
                 }

@@ -58,7 +58,6 @@ struct WidgetMediumView: View {
         } // Close VStack
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .widgetURL(URL(string: "githubcounter://launch?owner=\(stats.owner)&repo=\(stats.repo)"))
     }
     
     @ViewBuilder

@@ -9,6 +9,8 @@ class DiagnosticsManager: ObservableObject {
     @Published var filesInSharedDirectory: [String] = []
     @Published var fileContents: [String: String] = [:]
     
+    @Published var routingLogs: [String] = []
+    
     let coreFileNames: Set<String> = ["shared_prefs.json", "pat_store.json", "repos_manifest.json"]
     
     var coreFiles: [String] {
@@ -26,12 +28,22 @@ class DiagnosticsManager: ObservableObject {
     func logOpenedURL(_ url: URL) {
         DispatchQueue.main.async {
             self.lastOpenedURL = url.absoluteString
+            self.logRoutingEvent("Received URL via legacy method: \(url.absoluteString)")
         }
     }
     
     func log(_ message: String) {
         DispatchQueue.main.async {
             self.lastOpenedURL = message
+        }
+    }
+    
+    func logRoutingEvent(_ message: String) {
+        DispatchQueue.main.async {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm:ss.SSS"
+            let timeString = formatter.string(from: Date())
+            self.routingLogs.insert("[\(timeString)] \(message)", at: 0)
         }
     }
     

@@ -46,7 +46,7 @@ struct WidgetLargeView: View {
                 .buttonStyle(.plain)
             }
             
-            // 3 Columns (Selected metric is first)
+            // 3 Columns
             HStack(alignment: .top, spacing: 12) {
                 if orderedMetrics.count == 3 {
                     column(for: orderedMetrics[0])
