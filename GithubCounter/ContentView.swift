@@ -12,7 +12,8 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationSplitView {
+        HStack(spacing: 0) {
+            // Static Tab Column (fixed at 68pt matching traffic lights span)
             GeometryReader { geo in
                 let availableHeight = geo.size.height
                 let headerHeight: CGFloat = 72
@@ -21,10 +22,10 @@ struct ContentView: View {
                 let availableForTabs = availableHeight - headerHeight - bottomPadding - totalGaps
                 let slotHeight = availableForTabs / 5
                 
-                let isCompact = slotHeight < 90
-                let dynamicHeight = max(90, min(125, slotHeight))
+                let isCompact = slotHeight < 106
+                let dynamicHeight = max(106, min(125, slotHeight))
                 
-                VStack(spacing: 0) {
+                VStack(alignment: .center, spacing: 0) {
                     // Header (App Icon pinned to top below window traffic lights)
                     Image("SidebarAppIcon")
                         .resizable()
@@ -34,7 +35,7 @@ struct ContentView: View {
                         .padding(.top, 8)
                         .padding(.bottom, 8)
                     
-                    // Pinned Tab List
+                    // Pinned Tab List (Centered 56pt pills)
                     VStack(spacing: isCompact ? 6 : 8) {
                         SidebarButton(
                             title: "Dashboard",
@@ -87,26 +88,32 @@ struct ContentView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
+            .frame(width: 68)
             .background(Material.ultraThin)
-            .navigationSplitViewColumnWidth(min: 70, ideal: 74, max: 80)
-        } detail: {
-            if let selection = selection {
-                switch selection {
-                case .trends:
-                    TrendsView()
-                case .launchpad:
-                    LaunchpadView()
-                case .notes:
-                    NotesView()
-                case .setupGuide:
-                    SetupGuideView()
-                case .diagnostics:
-                    DiagnosticsView()
+            
+            Divider()
+            
+            // Detail Area
+            Group {
+                if let selection = selection {
+                    switch selection {
+                    case .trends:
+                        TrendsView()
+                    case .launchpad:
+                        LaunchpadView()
+                    case .notes:
+                        NotesView()
+                    case .setupGuide:
+                        SetupGuideView()
+                    case .diagnostics:
+                        DiagnosticsView()
+                    }
+                } else {
+                    Text("Select an item from the sidebar")
+                        .foregroundColor(.secondary)
                 }
-            } else {
-                Text("Select an item from the sidebar")
-                    .foregroundColor(.secondary)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -191,8 +198,7 @@ struct SidebarButton: View {
                         .foregroundColor(isSelected ? .white : .primary)
                         .lineLimit(1)
                 }
-                .padding(.horizontal, 10)
-                .frame(height: 56)
+                .frame(width: dynamicHeight, height: 56)
                 .background(
                     ZStack {
                         if isSelected {
@@ -204,7 +210,6 @@ struct SidebarButton: View {
                         }
                     }
                 )
-                .fixedSize()
                 .rotationEffect(.degrees(-90))
                 .frame(width: 56, height: dynamicHeight)
                 .contentShape(Rectangle())

@@ -25,7 +25,14 @@ struct TrendsView: View {
     @State private var testStatusResetTask: Task<Void, Never>? = nil
     @State private var currentStats: RepoStats?
     @State private var fetchTask: Task<Void, Never>? = nil
+    enum ChartViewTab: String, CaseIterable {
+        case cumulative = "Cumulative Growth"
+        case velocity = "Daily Velocity"
+        case history = "History Log"
+    }
+    
     @State private var selectedMetric: WidgetDisplayMetric = .downloads
+    @State private var selectedChartTab: ChartViewTab = .cumulative
     
     var body: some View {
         VStack(spacing: 20) {
@@ -50,17 +57,26 @@ struct TrendsView: View {
                 
                 metricsGrid
                 
-                TabView {
-                    cumulativeChart
-                        .tabItem { Text("Cumulative Growth") }
-                    
-                    velocityChart
-                        .tabItem { Text("Daily Velocity") }
-                    
-                    historyTable
-                        .tabItem { Text("History Log") }
+                Picker("Chart View", selection: $selectedChartTab) {
+                    ForEach(ChartViewTab.allCases, id: \.self) { tab in
+                        Text(tab.rawValue).tag(tab)
+                    }
                 }
-                .padding(.top, 6)
+                .pickerStyle(.segmented)
+                .frame(maxWidth: 380)
+                .padding(.top, 4)
+                
+                Group {
+                    switch selectedChartTab {
+                    case .cumulative:
+                        cumulativeChart
+                    case .velocity:
+                        velocityChart
+                    case .history:
+                        historyTable
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .padding()
