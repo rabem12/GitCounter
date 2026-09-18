@@ -31,7 +31,7 @@ struct ContentView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 56, height: 56)
-                        .help("Github Counter")
+                        .help("GitCounter")
                         .padding(.top, 8)
                         .padding(.bottom, 8)
                     

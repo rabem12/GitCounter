@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "guide_widget_edit_sheet.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -181,8 +181,13 @@ struct TrendsView: View {
         HStack(spacing: 24) {
             Label("\(formatNumber(stats.stars)) Stars", systemImage: "star.fill")
                 .foregroundColor(.yellow)
-            Label("\(formatNumber(stats.forks)) Forks", systemImage: "tuningfork")
-                .foregroundColor(.blue)
+            Label {
+                Text("\(formatNumber(stats.forks)) Forks")
+            } icon: {
+                Image("git_fork")
+                    .renderingMode(.template)
+            }
+            .foregroundColor(.blue)
             Label("\(formatNumber(stats.openIssues)) Open Issues", systemImage: "ladybug.fill")
                 .foregroundColor(.red)
         }

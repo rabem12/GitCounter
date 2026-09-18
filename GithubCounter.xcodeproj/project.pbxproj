@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C717DF1FC901C5A765C3325 /* NotesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9FDDD7780CAC09C6FC4F62 /* NotesManager.swift */; };
 		0CE2AEA3E7414916D7FF2E67 /* DiagnosticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4680683A164C8934370DE4 /* DiagnosticsManager.swift */; };
 		16B7D4D2B1DEC6F4D153BAB0 /* SetupGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C5006C870C95550993D4DA /* SetupGuideView.swift */; };
 		1CA86BA5B6553448E3D9CE7A /* GithubCounterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212247A3ECB742FACCB94273 /* GithubCounterWidget.swift */; };
@@ -20,11 +21,13 @@
 		3B07FAE28712FBCDD758D382 /* WidgetIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554039BFD13A2AFCC9DD99CC /* WidgetIconView.swift */; };
 		3DE99509FF79A74B33BFC331 /* OpenRepoIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E9AE352BFB677B7E6EDFF7 /* OpenRepoIntent.swift */; };
 		3FB69AE4F9CA4BF3F1A5F20C /* SelectRepositoryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6817C36EAB420909200749 /* SelectRepositoryIntent.swift */; };
+		40B5720B4435C857E03D864F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 261516F6C7B04450736DB823 /* PrivacyInfo.xcprivacy */; };
 		41F15693B238378AE5621F28 /* DownloadSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19661382614750E73B7AEA69 /* DownloadSnapshot.swift */; };
 		478555FAF1C59AA6AD8772E2 /* SharedDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69F74345F80CC2A6C0DC299 /* SharedDataManager.swift */; };
 		4D574FB883822F6FE4F905D4 /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5815DABE2D1B198E78B4501 /* HistoryManager.swift */; };
 		4D9003F9F63979B441314F07 /* OpenRepoIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E9AE352BFB677B7E6EDFF7 /* OpenRepoIntent.swift */; };
 		539BFE4654BF2EF6E65ECF5D /* GithubCounterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09FBFD4A34BBA947ACCDD46 /* GithubCounterApp.swift */; };
+		541B33046CDB073577E3A0F2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 261516F6C7B04450736DB823 /* PrivacyInfo.xcprivacy */; };
 		569264900146B99475CBFF7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A4CDA3409DDEBAD18C8307 /* AppDelegate.swift */; };
 		5895C3302D6B8727C3D3ADB9 /* LaunchpadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBB95867F0B851BFC5E3FDF /* LaunchpadManager.swift */; };
 		5C3B44E8F10CCF69C86F31AD /* RepoStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77EF4B334D0EE02C2082D42 /* RepoStats.swift */; };
@@ -34,12 +37,12 @@
 		676185469463FF827ADA2F19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9474819E5C05A14A4D152F4B /* Assets.xcassets */; };
 		69ACE7DABE10A0CDB478C5B9 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E16A902C8B314B4E530184C /* CacheManager.swift */; };
 		6BC9647803405E997AD54394 /* WidgetLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A631779DB8091AFF582E27F4 /* WidgetLargeView.swift */; };
+		79CAF4C0E6263378F0E27531 /* NotesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9FDDD7780CAC09C6FC4F62 /* NotesManager.swift */; };
 		84F444BB69BCEFA62A34235C /* DownloadSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19661382614750E73B7AEA69 /* DownloadSnapshot.swift */; };
+		850D7488BAB0F07D8ADA9EE0 /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575A532B7006840187E698E0 /* NotesView.swift */; };
 		8BB730CF1E8B7892ACD1A804 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B474BC1BB6E0A6526BBD40E6 /* AppIntents.framework */; };
 		910E950D469366A92D31A673 /* LaunchpadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBB95867F0B851BFC5E3FDF /* LaunchpadManager.swift */; };
 		9FC04A1B61398404D708C8BC /* LaunchpadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED0A25EC8CB68DBC564E783 /* LaunchpadView.swift */; };
-		B10000000000000000000001 /* NotesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000001 /* NotesManager.swift */; };
-		B20000000000000000000002 /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* NotesView.swift */; };
 		A8AB199FA8F3576E886E528B /* GithubCounterWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C3B2D6689586F4CFBEA8F9C0 /* GithubCounterWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AEF4D1427CFBC2BF83A60729 /* SelectRepositoryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6817C36EAB420909200749 /* SelectRepositoryIntent.swift */; };
 		BC8A92AF22F0AA31C3B7BD5B /* GitHubAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E3210D1A6653BF05F03387 /* GitHubAPIService.swift */; };
@@ -88,14 +91,14 @@
 		1AB7284029E4C4CBE7CF598B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1F6817C36EAB420909200749 /* SelectRepositoryIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRepositoryIntent.swift; sourceTree = "<group>"; };
 		212247A3ECB742FACCB94273 /* GithubCounterWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubCounterWidget.swift; sourceTree = "<group>"; };
+		261516F6C7B04450736DB823 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		2BBB95867F0B851BFC5E3FDF /* LaunchpadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchpadManager.swift; sourceTree = "<group>"; };
 		2E16A902C8B314B4E530184C /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		2E5280E9222F7BB765796EF7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3ED0A25EC8CB68DBC564E783 /* LaunchpadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchpadView.swift; sourceTree = "<group>"; };
-		A10000000000000000000001 /* NotesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesManager.swift; sourceTree = "<group>"; };
-		A20000000000000000000002 /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		400A0A48D3C4554375F486D2 /* DiagnosticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticsView.swift; sourceTree = "<group>"; };
 		554039BFD13A2AFCC9DD99CC /* WidgetIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetIconView.swift; sourceTree = "<group>"; };
+		575A532B7006840187E698E0 /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		7077EF0204D741C61D9B131A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		77AAB4E0AA1FAC1168848764 /* SecretsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretsManager.swift; sourceTree = "<group>"; };
 		91049BC9734DE3E5316C6C01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -109,6 +112,7 @@
 		B77EF4B334D0EE02C2082D42 /* RepoStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoStats.swift; sourceTree = "<group>"; };
 		C3B2D6689586F4CFBEA8F9C0 /* GithubCounterWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GithubCounterWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5C5006C870C95550993D4DA /* SetupGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupGuideView.swift; sourceTree = "<group>"; };
+		CA9FDDD7780CAC09C6FC4F62 /* NotesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesManager.swift; sourceTree = "<group>"; };
 		CD4E8F2BF79BF76374EB9FA9 /* GithubCounterWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GithubCounterWidget.entitlements; sourceTree = "<group>"; };
 		D5426C0A4369CC1376CD3296 /* GithubCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5E3210D1A6653BF05F03387 /* GitHubAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPIService.swift; sourceTree = "<group>"; };
@@ -155,7 +159,7 @@
 			children = (
 				400A0A48D3C4554375F486D2 /* DiagnosticsView.swift */,
 				3ED0A25EC8CB68DBC564E783 /* LaunchpadView.swift */,
-				A20000000000000000000002 /* NotesView.swift */,
+				575A532B7006840187E698E0 /* NotesView.swift */,
 				C5C5006C870C95550993D4DA /* SetupGuideView.swift */,
 				FBEECC9DBADA8524B71C41DE /* TrendsView.swift */,
 			);
@@ -238,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				9474819E5C05A14A4D152F4B /* Assets.xcassets */,
+				261516F6C7B04450736DB823 /* PrivacyInfo.xcprivacy */,
 				EC74FF4DB2D18ED6A32B5C47 /* RefreshWidgetIntent.swift */,
 				1F6817C36EAB420909200749 /* SelectRepositoryIntent.swift */,
 				803C550E5457168E62E8D4BB /* Diagnostics */,
@@ -255,7 +260,7 @@
 				D5E3210D1A6653BF05F03387 /* GitHubAPIService.swift */,
 				A5815DABE2D1B198E78B4501 /* HistoryManager.swift */,
 				2BBB95867F0B851BFC5E3FDF /* LaunchpadManager.swift */,
-				A10000000000000000000001 /* NotesManager.swift */,
+				CA9FDDD7780CAC09C6FC4F62 /* NotesManager.swift */,
 				77AAB4E0AA1FAC1168848764 /* SecretsManager.swift */,
 				F69F74345F80CC2A6C0DC299 /* SharedDataManager.swift */,
 			);
@@ -322,6 +327,16 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					63A27A7BCCE53C8A6ED8007A = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					F85493F9981EE511296CDB67 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+				};
 			};
 			buildConfigurationList = 6E55B1959E12783936A4289E /* Build configuration list for PBXProject "GithubCounter" */;
 			developmentRegion = en;
@@ -349,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				676185469463FF827ADA2F19 /* Assets.xcassets in Resources */,
+				541B33046CDB073577E3A0F2 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5635F4DAB3698E7D136AE1F /* Assets.xcassets in Resources */,
+				40B5720B4435C857E03D864F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,8 +395,8 @@
 				4D574FB883822F6FE4F905D4 /* HistoryManager.swift in Sources */,
 				910E950D469366A92D31A673 /* LaunchpadManager.swift in Sources */,
 				9FC04A1B61398404D708C8BC /* LaunchpadView.swift in Sources */,
-				B10000000000000000000001 /* NotesManager.swift in Sources */,
-				B20000000000000000000002 /* NotesView.swift in Sources */,
+				0C717DF1FC901C5A765C3325 /* NotesManager.swift in Sources */,
+				850D7488BAB0F07D8ADA9EE0 /* NotesView.swift in Sources */,
 				3DE99509FF79A74B33BFC331 /* OpenRepoIntent.swift in Sources */,
 				ED9136B8869E5847FD896C66 /* RefreshWidgetIntent.swift in Sources */,
 				5C3B44E8F10CCF69C86F31AD /* RepoStats.swift in Sources */,
@@ -403,6 +420,7 @@
 				26BF9929E646C92C608E7EB1 /* GithubCounterWidgetBundle.swift in Sources */,
 				3201CB489BAEB6AA8FB291D1 /* HistoryManager.swift in Sources */,
 				5895C3302D6B8727C3D3ADB9 /* LaunchpadManager.swift in Sources */,
+				79CAF4C0E6263378F0E27531 /* NotesManager.swift in Sources */,
 				4D9003F9F63979B441314F07 /* OpenRepoIntent.swift in Sources */,
 				29FD95951DC78B1259EBC90E /* RefreshWidgetIntent.swift in Sources */,
 				316AFAFE9F4957498A626FF2 /* RepoStats.swift in Sources */,
@@ -433,11 +451,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GithubCounterWidget/GithubCounterWidget.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 15;
-				DEVELOPMENT_TEAM = 4CJZGH68P4;
+				DEVELOPMENT_TEAM = "";
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = GithubCounterWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -447,7 +465,6 @@
 				);
 				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = io.githubcounter.GithubCounterApp.Widget;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -456,11 +473,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 15;
-				DEVELOPMENT_TEAM = 4CJZGH68P4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOX = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GithubCounter/Info.plist;
@@ -470,7 +487,6 @@
 				);
 				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = io.githubcounter.GithubCounterApp;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -543,11 +559,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GithubCounterWidget/GithubCounterWidget.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 15;
-				DEVELOPMENT_TEAM = 4CJZGH68P4;
+				DEVELOPMENT_TEAM = "";
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = GithubCounterWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -557,7 +573,6 @@
 				);
 				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = io.githubcounter.GithubCounterApp.Widget;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -622,11 +637,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 15;
-				DEVELOPMENT_TEAM = 4CJZGH68P4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOX = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GithubCounter/Info.plist;
@@ -636,7 +651,6 @@
 				);
 				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = io.githubcounter.GithubCounterApp;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;

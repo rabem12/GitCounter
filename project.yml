@@ -23,8 +23,11 @@ targets:
     info:
       path: GithubCounter/Info.plist
       properties:
+        CFBundleDisplayName: GitCounter
+        CFBundleName: GitCounter
+        ITSAppUsesNonExemptEncryption: false
         CFBundleURLTypes:
-          - CFBundleURLName: "Github Counter URL"
+          - CFBundleURLName: "GitCounter URL"
             CFBundleURLSchemes:
               - githubcounter
 
