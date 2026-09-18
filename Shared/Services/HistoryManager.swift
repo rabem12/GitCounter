@@ -1,3 +1,10 @@
+//
+//  HistoryManager.swift
+//  GitCounter
+//
+//  Copyright © 2026 Black Pinion LLC. All rights reserved.
+//
+
 import Foundation
 
 struct StatsDeltas {

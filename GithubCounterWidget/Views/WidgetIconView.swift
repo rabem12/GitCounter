@@ -1,3 +1,10 @@
+//
+//  WidgetIconView.swift
+//  GitCounter
+//
+//  Copyright © 2026 Black Pinion LLC. All rights reserved.
+//
+
 import SwiftUI
 
 struct WidgetIconView: View {

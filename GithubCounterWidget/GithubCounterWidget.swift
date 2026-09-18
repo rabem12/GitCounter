@@ -1,3 +1,10 @@
+//
+//  GithubCounterWidget.swift
+//  GitCounter
+//
+//  Copyright © 2026 Black Pinion LLC. All rights reserved.
+//
+
 import WidgetKit
 import SwiftUI
 import OSLog

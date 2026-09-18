@@ -1,3 +1,10 @@
+//
+//  RefreshWidgetIntent.swift
+//  GitCounter
+//
+//  Copyright © 2026 Black Pinion LLC. All rights reserved.
+//
+
 import AppIntents
 import WidgetKit
 

@@ -1,3 +1,10 @@
+//
+//  WidgetSmallView.swift
+//  GitCounter
+//
+//  Copyright © 2026 Black Pinion LLC. All rights reserved.
+//
+
 import SwiftUI
 import WidgetKit
 
