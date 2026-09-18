@@ -68,8 +68,8 @@ Prerequisites: macOS 14.0+, Xcode 15.0+, and [XcodeGen](https://github.com/yonas
 
 1. Clone this repository to your Mac:
    ```bash
-   git clone https://github.com/rabem12/Github_Counter.git
-   cd Github_Counter
+   git clone https://github.com/rabem12/GitCounter.git
+   cd GitCounter
    ```
 2. Generate the Xcode project:
    ```bash

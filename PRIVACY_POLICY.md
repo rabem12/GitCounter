@@ -52,7 +52,7 @@ All data utilized by GitCounter is stored strictly on your local device:
 
 If you have questions, feedback, or security inquiries regarding this Privacy Policy or GitCounter, please open an issue or discussion on the official GitHub repository:
 
-* **GitHub Repository Issues:** Please submit an issue via the repository's [Issues tracker](https://github.com/rabem12/Github_Counter/issues).
+* **GitHub Repository Issues:** Please submit an issue via the repository's [Issues tracker](https://github.com/rabem12/GitCounter/issues).
 
 ---
 
