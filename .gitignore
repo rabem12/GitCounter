@@ -27,6 +27,12 @@ Carthage/Build/
 
 # OS X
 .DS_Store
+.Spotlight-V100
+.Trashes
+
+# Debug Symbols
+*.dSYM/
+*.dSYM.zip
 
 # Scratch and Test Files
 scratch/
